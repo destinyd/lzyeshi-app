@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!--jiepang-->
+  <dimen name="venue_title_height_2">120.0dip</dimen>
+  <dimen name="sample_image_length">100.0dip</dimen>
+  <dimen name="normal_padding_length">10.0dip</dimen>
+  <dimen name="profile_image_length">93.0dip</dimen>
+  <dimen name="tiny1_padding_length">3.0dip</dimen>
+  <dimen name="huge_padding_length">30.0dip</dimen>
+  <dimen name="small_padding_length">5.0dip</dimen>
+  <!--momo-->
+  <dimen name="style_patterns">16.0dip</dimen>
+
+  <!--slidingmenu-->
+    <dimen name="slidingmenu_offset">60dp</dimen>
+    <dimen name="list_padding">10dp</dimen>
+    <dimen name="shadow_width">15dp</dimen>
+
+    <!--raise-->
+    <dimen name="corner_radius">8dp</dimen>
+    <dimen name="corner_radius_zero">0dp</dimen>
+    <dimen name="tab_space_top">4dp</dimen>
+    <dimen name="tab_space">0dp</dimen>
+    <dimen name="tab_space_plus1">3dp</dimen>
+    <dimen name="tab_space_bottom_line">36sp</dimen>
+    <dimen name="tab_space_unselected_top">6sp</dimen>
+</resources>
