@@ -42,7 +42,7 @@ public class AdapterCommodities extends AdapterAlternatingColorList<Commodity> {
     protected void update(int position, Commodity commodity) {
         super.update(position, commodity);
 
-        avatars.bind(imageView(0), commodity.getPicture(),"thumb");
+        avatars.bind(imageView(0), commodity.getPicture(),"android");
 
         setText(1, commodity.getName());
         setText(2, String.valueOf(commodity.getReserve()));

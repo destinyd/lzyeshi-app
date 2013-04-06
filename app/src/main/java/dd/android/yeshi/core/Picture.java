@@ -32,8 +32,22 @@ public class Picture implements Serializable {
             }
         }
 
+        public class Android implements Serializable {
+            private static final long serialVersionUID = -2085974644325134232L;
+            public String url;
+
+            public String getUrl() {
+                return url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
+        }
+
         String url;
         Thumb thumb;
+        Android android;
 
         public String getUrl() {
             return url;
@@ -49,6 +63,14 @@ public class Picture implements Serializable {
 
         public void setThumb(Thumb thumb) {
             this.thumb = thumb;
+        }
+
+        public Android getAndroid() {
+            return android;
+        }
+
+        public void setAndroid(Android android) {
+            this.android = android;
         }
     }
 
@@ -74,10 +96,18 @@ public class Picture implements Serializable {
         else
             return image.getUrl();
     }
+
     public String getThumbUrl(){
         if(image == null)
             return "";
         else
             return image.getThumb().getUrl();
+    }
+
+    public String getAndroidUrl(){
+        if(image == null)
+            return "";
+        else
+            return image.getAndroid().getUrl();
     }
 }

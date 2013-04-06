@@ -281,11 +281,11 @@ public class PictureImageLoader {
     private String getAvatarUrl(Picture picture,String type) {
         this.type = type;
         String avatarUrl = URL_BASE;
-//        if(type.equals("avatar")){
-//            avatarUrl += picture.getAvatarUrl();
-//        }else
         if(type.equals("thumb")){
             avatarUrl += picture.getThumbUrl();
+
+        }else if(type.equals("android")){
+            avatarUrl += picture.getAndroidUrl();
         }else{
             avatarUrl += picture.getUrl();
         }
@@ -318,7 +318,7 @@ public class PictureImageLoader {
 //            return setImage(loadingAvatar, view);
 //        }
 
-        final String pictureId = picture._id;
+        final String pictureId = picture._id + type;
 
         BitmapDrawable loadedImage = loaded.get(pictureId);
         if (loadedImage != null)

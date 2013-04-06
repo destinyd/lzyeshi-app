@@ -20,7 +20,7 @@ import java.util.List;
 
 import static dd.android.yeshi.core.Constants.Extra.GROUP;
 
-public class AdapterYeshiPager extends FragmentPagerAdapter {
+public class AdapterYSPager extends FragmentPagerAdapter {
 
     private final Resources resources;
 
@@ -32,7 +32,7 @@ public class AdapterYeshiPager extends FragmentPagerAdapter {
      * @param resources
      * @param fragmentManager
      */
-    public AdapterYeshiPager(List<Group> p_groups, Resources resources, FragmentManager fragmentManager) {
+    public AdapterYSPager(List<Group> p_groups, Resources resources, FragmentManager fragmentManager) {
         super(fragmentManager);
         groups = p_groups;
         this.resources = resources;
@@ -52,9 +52,9 @@ public class AdapterYeshiPager extends FragmentPagerAdapter {
             FragmentCommodities fragmentCommodities = new FragmentCommodities(
 //                    groups.get(position)
             );
-//            Bundle bundle = new Bundle();
-//            bundle.putSerializable(GROUP,group);
-//            fragmentCommodities.setArguments(bundle);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(GROUP,group);
+            fragmentCommodities.setArguments(bundle);
             return fragmentCommodities;
         }
         else

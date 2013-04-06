@@ -92,13 +92,17 @@ public class FragmentCommodities extends
     }
 
     private void getCommodities() {
+        if(group == null)
+            return;
         progressDialogShow(getActivity());
         getActivity().setProgressBarVisibility(true);
         new RoboAsyncTask<Boolean>(getActivity()) {
             public Boolean call() throws Exception {
-                List<Commodity> get_commodities = ServiceYS.getCommodities("515a7cf351e4a15a0000006e", page);
+                List<Commodity> get_commodities = ServiceYS.getCommodities(group.get_id(), page);
                 if (page > 1 && get_commodities != null && get_commodities.size() == 0) {
                     page--;
+                    lv_list.setOnLoadMoreListener(null);
+                    Toaster.showLong(getActivity(),"没有数据了。");
                 } else
                     addCommodities(get_commodities);
                 return true;
@@ -119,6 +123,7 @@ public class FragmentCommodities extends
             @Override
             protected void onFinally() throws RuntimeException {
                 progressDialogDismiss();
+                lv_list.onLoadMoreComplete();
                 getActivity().setProgressBarVisibility(false);
             }
 

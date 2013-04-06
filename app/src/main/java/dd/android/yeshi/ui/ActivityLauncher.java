@@ -25,8 +25,8 @@ public class ActivityLauncher extends
     }
     private void setTabs()
     {
-        addTab("Home", R.drawable.tab_home, ActivitySettings.class);
-        addTab("衣服", R.drawable.tab_search, ActivityGroups.class);
+        addTab("Home", R.drawable.tab_home, ActivityGroups.class);
+        addTab("衣服", R.drawable.tab_search, ActivitySettings.class);
         addTab("Fake", R.drawable.tab_search, ActivitySettings.class);
         addTab("Home", R.drawable.tab_home, ActivitySettings.class);
         addTab("Search", R.drawable.tab_search, ActivitySettings.class);

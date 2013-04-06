@@ -68,7 +68,7 @@ public class ActivityGroups extends
 
             @Override
             public void onSuccess(Boolean relationship) {
-                pager.setAdapter(new AdapterYeshiPager(groups,getResources(), getSupportFragmentManager()));
+                pager.setAdapter(new AdapterYSPager(groups,getResources(), getSupportFragmentManager()));
 
                 indicator.setViewPager(pager);
             }
