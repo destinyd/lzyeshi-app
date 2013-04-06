@@ -36,6 +36,7 @@ public class FragmentCommodities extends
     private PictureImageLoader avatars;
 
     List<Commodity> commodities = null;
+    AdapterCommodities adapter = null;
 
     int page = 1, pass_page = 0;
 
@@ -102,7 +103,7 @@ public class FragmentCommodities extends
                 if (page > 1 && get_commodities != null && get_commodities.size() == 0) {
                     page--;
                     lv_list.setOnLoadMoreListener(null);
-                    Toaster.showLong(getActivity(),"没有数据了。");
+                    Toaster.showLong(getActivity(), "没有数据了。");
                 } else
                     addCommodities(get_commodities);
                 return true;
@@ -117,7 +118,7 @@ public class FragmentCommodities extends
 
             @Override
             public void onSuccess(Boolean relationship) {
-                initListData(commodities);
+                commodities_to_list();
             }
 
             @Override
@@ -145,11 +146,19 @@ public class FragmentCommodities extends
 //        startActivity(new Intent(getActivity(), ActivityProblem.class).putExtra(PROBLEM, problem));
     }
 
-    private void initListData(List<Commodity> requests) {
-        AdapterCommodities adapter = new AdapterCommodities(
-                getActivity().getLayoutInflater(), requests,
-                avatars);
-        lv_list.setAdapter(adapter);
+    private void commodities_to_list() {
+        if(adapter == null)
+        {
+            adapter = new AdapterCommodities(
+                    getActivity().getLayoutInflater(), commodities,
+                    avatars);
+            lv_list.setAdapter(adapter);
+        }
+        else
+        {
+            adapter.setItems(commodities);
+            adapter.notifyDataSetChanged();
+        }
     }
 
 }
