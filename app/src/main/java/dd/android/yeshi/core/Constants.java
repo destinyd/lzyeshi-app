@@ -67,6 +67,8 @@ public class Constants {
 
         public static final String URL_GROUPS = URL_BASE + "/groups.json";
 
+        public static final String FORMAT_URL_COMMODITIES = URL_BASE + "/commodities.json?page=%d";
+
         public static final String FORMAT_URL_GROUP_COMMODITIES = URL_BASE + "/groups/%s/commodities.json?page=%d";
 
 //        public static final String FORMAT_URL_PROBLEM = URL_BASE + "/android/%s.json";

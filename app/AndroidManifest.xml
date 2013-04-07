@@ -128,6 +128,9 @@
         <activity
                 android:name=".ui.ActivityGroups"
                 />
+        <activity
+                android:name=".ui.ActivityCommodities"
+                />
 
         <service
                 android:name=".service.ProblemsService"

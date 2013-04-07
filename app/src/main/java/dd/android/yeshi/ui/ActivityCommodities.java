@@ -1,18 +1,15 @@
 
 package dd.android.yeshi.ui;
 
-
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
+import com.actionbarsherlock.view.Window;
 import com.costum.android.widget.LoadMoreListView;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.google.inject.Inject;
 import dd.android.yeshi.R;
 import dd.android.yeshi.core.Commodity;
-import dd.android.yeshi.core.Group;
 import dd.android.yeshi.core.PictureImageLoader;
 import dd.android.yeshi.core.ServiceYS;
 import roboguice.inject.InjectView;
@@ -21,53 +18,28 @@ import roboguice.util.RoboAsyncTask;
 import java.util.ArrayList;
 import java.util.List;
 
-import static dd.android.yeshi.core.Constants.Extra.GROUP;
-
 /**
  * Activity to authenticate the ABUser against an API (example API on Parse.com)
  */
-public class FragmentCommodities extends
-        FragmentYS {
+public class ActivityCommodities extends
+        ActivityYS {
+
+    List<Commodity> commodities = new ArrayList<Commodity>();
+
     @InjectView(R.id.lv_list)
     private LoadMoreListView lv_list;
-//    @InjectExtra(GROUP)
-    protected Group group;
     @Inject
     private PictureImageLoader avatars;
-
-    List<Commodity> commodities = null;
     AdapterCommodities adapter = null;
-
-    int page = 1, pass_page = 0;
-
-    @Override
-    public void setArguments(Bundle args) {
-        group = (Group)args.getSerializable(GROUP);
-//        super.setArguments(args);    //To change body of overridden methods use File | Settings | File Templates.
-    }
+    int page = 1,pass_page = 0;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+//        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
-    }
+        setContentView(R.layout.act_commodities);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_commodities, null);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();    //To change body of overridden methods use File | Settings | File Templates.
-    }
-    private void initProblems() {
-        if (commodities == null)
-            commodities = new ArrayList<Commodity>();
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
         lv_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -87,23 +59,26 @@ public class FragmentCommodities extends
         getCommodities();
     }
 
+    private void initProblems() {
+        if (commodities == null)
+            commodities = new ArrayList<Commodity>();
+    }
+
     private void getNextPage() {
         page++;
         getCommodities();
     }
 
     private void getCommodities() {
-        if(group == null)
-            return;
-//        progressDialogShow(getActivity());
-//        getActivity().setProgressBarVisibility(true);
-        new RoboAsyncTask<Boolean>(getActivity()) {
+        progressDialogShow(this);
+//        setProgressBarVisibility(true);
+        new RoboAsyncTask<Boolean>(this) {
             public Boolean call() throws Exception {
-                List<Commodity> get_commodities = ServiceYS.getGroupCommodities(group.get_id(), page);
+                List<Commodity> get_commodities = ServiceYS.getCommodities(page);
                 if (page > 1 && get_commodities != null && get_commodities.size() == 0) {
                     page--;
                     lv_list.setOnLoadMoreListener(null);
-                    Toaster.showLong(getActivity(), "没有数据了。");
+                    Toaster.showLong(ActivityCommodities.this, "没有数据了。");
                 } else
                     addCommodities(get_commodities);
                 return true;
@@ -112,8 +87,8 @@ public class FragmentCommodities extends
             @Override
             protected void onException(Exception e) throws RuntimeException {
                 e.printStackTrace();
-                Toaster.showLong(getActivity(), "获取商品信息失败");
-//                getActivity().setProgressBarVisibility(false);
+                Toaster.showLong(ActivityCommodities.this, "获取商品信息失败");
+//                setProgressBarVisibility(false);
             }
 
             @Override
@@ -123,9 +98,9 @@ public class FragmentCommodities extends
 
             @Override
             protected void onFinally() throws RuntimeException {
-//                progressDialogDismiss();
+                progressDialogDismiss();
                 lv_list.onLoadMoreComplete();
-//                getActivity().setProgressBarVisibility(false);
+//                setProgressBarVisibility(false);
             }
 
 //            @Override
@@ -135,6 +110,7 @@ public class FragmentCommodities extends
 //            }
         }.execute();
     }
+
 
     private void addCommodities(List<Commodity> get_commodities) {
         initProblems();
@@ -150,7 +126,7 @@ public class FragmentCommodities extends
         if(adapter == null)
         {
             adapter = new AdapterCommodities(
-                    getActivity().getLayoutInflater(), commodities,
+                    getLayoutInflater(), commodities,
                     avatars);
             lv_list.setAdapter(adapter);
         }

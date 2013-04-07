@@ -32,7 +32,7 @@ public class ActivityGroups extends
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+//        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
         setContentView(R.layout.act_groups);
@@ -45,7 +45,7 @@ public class ActivityGroups extends
     protected void getGroups(){
         groups = new ArrayList<Group>();
 
-        setProgressBarVisibility(true);
+//        setProgressBarVisibility(true);
 
         new RoboAsyncTask<Boolean>(this) {
             public Boolean call() throws Exception {
@@ -63,7 +63,7 @@ public class ActivityGroups extends
             protected void onException(Exception e) throws RuntimeException {
                 e.printStackTrace();
                 Toaster.showLong(ActivityGroups.this, "获取商品分组失败。");
-                setProgressBarVisibility(false);
+//                setProgressBarVisibility(false);
             }
 
             @Override
@@ -76,7 +76,7 @@ public class ActivityGroups extends
             @Override
             protected void onFinally() throws RuntimeException {
 //                activityGroups.progressDialogDismiss();
-                setProgressBarVisibility(false);
+//                setProgressBarVisibility(false);
             }
 
 //            @Override

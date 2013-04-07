@@ -25,11 +25,11 @@ public class ActivityLauncher extends
     }
     private void setTabs()
     {
-        addTab("Home", R.drawable.tab_home, ActivityGroups.class);
-        addTab("衣服", R.drawable.tab_search, ActivitySettings.class);
-        addTab("Fake", R.drawable.tab_search, ActivitySettings.class);
-        addTab("Home", R.drawable.tab_home, ActivitySettings.class);
-        addTab("Search", R.drawable.tab_search, ActivitySettings.class);
+        addTab("最新", R.drawable.tab_home, ActivityCommodities.class);
+        addTab("分类", R.drawable.tab_search, ActivityGroups.class);
+        addTab("购物车", R.drawable.tab_search, ActivitySettings.class);
+        addTab("定位", R.drawable.tab_home, ActivitySettings.class);
+        addTab("联系", R.drawable.tab_search, ActivitySettings.class);
     }
     private void addTab(String labelId, int drawableId, Class<?> c)
     {

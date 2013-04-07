@@ -57,9 +57,21 @@ public class ServiceYS {
         }
     }
 
-    public static List<Commodity> getCommodities(String group_id, int page) throws IOException  {
+    public static List<Commodity> getGroupCommodities(String group_id, int page) throws IOException  {
         try {
             String url = String.format(FORMAT_URL_GROUP_COMMODITIES,group_id,page);
+            HttpRequest request = get(url);
+            String body = request.body();
+            List<Commodity> response = JSON.parseArray(body, Commodity.class);
+            return response;
+        } catch (HttpRequest.HttpRequestException e) {
+            throw e.getCause();
+        }
+    }
+
+    public static List<Commodity> getCommodities(int page) throws IOException {
+        try {
+            String url = String.format(FORMAT_URL_COMMODITIES,page);
             HttpRequest request = get(url);
             String body = request.body();
             List<Commodity> response = JSON.parseArray(body, Commodity.class);
