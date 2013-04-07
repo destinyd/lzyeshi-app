@@ -30,7 +30,7 @@ public class FragmentCommodities extends
         FragmentYS {
     @InjectView(R.id.lv_list)
     private LoadMoreListView lv_list;
-//    @InjectExtra(GROUP)
+    //    @InjectExtra(GROUP)
     protected Group group;
     @Inject
     private PictureImageLoader avatars;
@@ -39,10 +39,11 @@ public class FragmentCommodities extends
     AdapterCommodities adapter = null;
 
     int page = 1, pass_page = 0;
+    boolean firstPage = true;
 
     @Override
     public void setArguments(Bundle args) {
-        group = (Group)args.getSerializable(GROUP);
+        group = (Group) args.getSerializable(GROUP);
 //        super.setArguments(args);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
@@ -60,7 +61,8 @@ public class FragmentCommodities extends
     public void onDestroy() {
         super.onDestroy();    //To change body of overridden methods use File | Settings | File Templates.
     }
-    private void initProblems() {
+
+    private void initCommodities() {
         if (commodities == null)
             commodities = new ArrayList<Commodity>();
     }
@@ -84,7 +86,11 @@ public class FragmentCommodities extends
                     }
                 }
         );
-        getCommodities();
+        initCommodities();
+        if (commodities.size() == 0)
+            getCommodities();
+        else
+            init_list();
     }
 
     private void getNextPage() {
@@ -93,7 +99,7 @@ public class FragmentCommodities extends
     }
 
     private void getCommodities() {
-        if(group == null)
+        if (group == null)
             return;
 //        progressDialogShow(getActivity());
 //        getActivity().setProgressBarVisibility(true);
@@ -102,6 +108,8 @@ public class FragmentCommodities extends
                 List<Commodity> get_commodities = ServiceYS.getGroupCommodities(group.get_id(), page);
                 if (page > 1 && get_commodities != null && get_commodities.size() == 0) {
                     page--;
+                    if (page == 1)
+                        firstPage = true;
                     lv_list.setOnLoadMoreListener(null);
                     Toaster.showLong(getActivity(), "没有数据了。");
                 } else
@@ -118,7 +126,7 @@ public class FragmentCommodities extends
 
             @Override
             public void onSuccess(Boolean relationship) {
-                commodities_to_list();
+                set_commodities_to_list();
             }
 
             @Override
@@ -137,7 +145,7 @@ public class FragmentCommodities extends
     }
 
     private void addCommodities(List<Commodity> get_commodities) {
-        initProblems();
+        initCommodities();
         commodities.addAll(get_commodities);
     }
 
@@ -146,19 +154,19 @@ public class FragmentCommodities extends
 //        startActivity(new Intent(getActivity(), ActivityProblem.class).putExtra(PROBLEM, problem));
     }
 
-    private void commodities_to_list() {
-        if(adapter == null)
-        {
-            adapter = new AdapterCommodities(
-                    getActivity().getLayoutInflater(), commodities,
-                    avatars);
-            lv_list.setAdapter(adapter);
-        }
-        else
-        {
-            adapter.setItems(commodities);
-            adapter.notifyDataSetChanged();
-        }
+    private void init_list() {
+        adapter = new AdapterCommodities(
+                getActivity().getLayoutInflater(), commodities,
+                avatars);
+
+        lv_list.setAdapter(adapter);
+    }
+
+    private void set_commodities_to_list() {
+        if (adapter == null || lv_list.getAdapter() == null)
+            init_list();
+        adapter.setItems(commodities);
+        adapter.notifyDataSetChanged();
     }
 
 }

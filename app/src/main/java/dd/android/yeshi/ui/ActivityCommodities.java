@@ -35,7 +35,6 @@ public class ActivityCommodities extends
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
         setContentView(R.layout.act_commodities);
@@ -71,7 +70,6 @@ public class ActivityCommodities extends
 
     private void getCommodities() {
         progressDialogShow(this);
-//        setProgressBarVisibility(true);
         new RoboAsyncTask<Boolean>(this) {
             public Boolean call() throws Exception {
                 List<Commodity> get_commodities = ServiceYS.getCommodities(page);
@@ -88,7 +86,6 @@ public class ActivityCommodities extends
             protected void onException(Exception e) throws RuntimeException {
                 e.printStackTrace();
                 Toaster.showLong(ActivityCommodities.this, "获取商品信息失败");
-//                setProgressBarVisibility(false);
             }
 
             @Override
@@ -100,14 +97,7 @@ public class ActivityCommodities extends
             protected void onFinally() throws RuntimeException {
                 progressDialogDismiss();
                 lv_list.onLoadMoreComplete();
-//                setProgressBarVisibility(false);
             }
-
-//            @Override
-//            public boolean cancel(boolean mayInterruptIfRunning) {
-//                return super.cancel()
-//                return task.cancel(mayInterruptIfRunning);
-//            }
         }.execute();
     }
 
@@ -119,7 +109,6 @@ public class ActivityCommodities extends
 
     public void onListItemClick(LoadMoreListView l, View v, int position, long id) {
         Commodity problem = ((Commodity) l.getItemAtPosition(position));
-//        startActivity(new Intent(getActivity(), ActivityProblem.class).putExtra(PROBLEM, problem));
     }
 
     private void commodities_to_list() {
