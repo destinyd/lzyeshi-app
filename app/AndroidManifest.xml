@@ -131,14 +131,16 @@
         <activity
                 android:name=".ui.ActivityCommodities"
                 />
-
-        <service
-                android:name=".service.ProblemsService"
-                android:process=":message" >
-            <intent-filter>
-                <action android:name="dd.android.yeshi.service.ProblemsService" />
-            </intent-filter>
-        </service>
+        <activity
+                android:name=".ui.ActivityContact"
+                />
+        <!--<service-->
+                <!--android:name=".service.ProblemsService"-->
+                <!--android:process=":message" >-->
+            <!--<intent-filter>-->
+                <!--<action android:name="dd.android.yeshi.service.ProblemsService" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
 
         <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
         </service>
