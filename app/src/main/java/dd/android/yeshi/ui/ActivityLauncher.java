@@ -27,9 +27,10 @@ public class ActivityLauncher extends
     {
         addTab("最新", R.drawable.tab_home, ActivityCommodities.class);
         addTab("分类", R.drawable.tab_search, ActivityGroups.class);
-        addTab("购物车", R.drawable.tab_search, ActivitySettings.class);
-        addTab("定位", R.drawable.tab_home, ActivitySettings.class);
+//        addTab("购物车", R.drawable.tab_search, ActivitySettings.class);
+        addTab("定位", R.drawable.tab_search, ActivitySettings.class);
         addTab("联系", R.drawable.tab_search, ActivitySettings.class);
+        addTab("设置", R.drawable.tab_search, ActivitySettings.class);
     }
     private void addTab(String labelId, int drawableId, Class<?> c)
     {
