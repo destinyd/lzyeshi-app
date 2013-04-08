@@ -81,6 +81,18 @@ public class ServiceYS {
         }
     }
 
+    public static List<Location> getLocations() throws IOException  {
+        try {
+            String url = String.format(URL_LOCATIONS);
+            HttpRequest request = get(url);
+            String body = request.body();
+            List<Location> response = JSON.parseArray(body, Location.class);
+            return response;
+        } catch (HttpRequest.HttpRequestException e) {
+            throw e.getCause();
+        }
+    }
+
 //    public static List<Price> getPrices(String uuid) throws IOException {
 //        try {
 //            HttpRequest request = get(URL_PRICING + "?" + "uuid=" + uuid);

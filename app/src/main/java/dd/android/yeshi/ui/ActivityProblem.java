@@ -324,7 +324,7 @@ public class ActivityProblem extends ActivityYS {
 //    }
 //
 //    public void handleMap(View v){
-//        startActivity(new Intent(this, ActivityLocate.class).putExtra(PROBLEM, problem));
+//        startActivity(new Intent(this, ActivityLocations.class).putExtra(PROBLEM, problem));
 //    }
 //
 //    @Override

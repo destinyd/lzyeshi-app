@@ -28,7 +28,7 @@ public class ActivityLauncher extends
         addTab("最新", R.drawable.tab_home, ActivityCommodities.class);
         addTab("分类", R.drawable.tab_groups, ActivityGroups.class);
 //        addTab("购物车", R.drawable.tab_search, ActivitySettings.class);
-        addTab("定位", R.drawable.tab_location, ActivitySettings.class);
+        addTab("定位", R.drawable.tab_location, ActivityLocations.class);
         addTab("联系", R.drawable.tab_contact, ActivityContact.class);
         addTab("设置", R.drawable.tab_settings, ActivitySettings.class);
     }

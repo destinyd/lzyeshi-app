@@ -61,11 +61,13 @@ public class Constants {
         }
 
 
-        public static final String URL_BASE = "http://192.168.1.4:3004";
+        public static final String URL_BASE = "http://ysdev.realityandapp.com";
 
 //        public static final String URL_ADMIN_BASE = URL_BASE + "/xiaofengxiaomi";
 
         public static final String URL_GROUPS = URL_BASE + "/groups.json";
+
+        public static final String URL_LOCATIONS = URL_BASE + "/locations.json";
 
         public static final String FORMAT_URL_COMMODITIES = URL_BASE + "/commodities.json?page=%d";
 

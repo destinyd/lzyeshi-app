@@ -1,7 +1,11 @@
 package dd.android.yeshi.ui;
 
+import android.graphics.drawable.Drawable;
+import com.github.kevinsawicki.wishlist.Toaster;
 import dd.android.yeshi.FCApplication;
 import dd.android.yeshi.R;
+import dd.android.yeshi.core.Group;
+import dd.android.yeshi.core.Location;
 import dd.android.yeshi.core.Problem;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,14 +15,17 @@ import com.baidu.mapapi.map.*;
 import com.baidu.mapapi.search.*;
 import com.baidu.platform.comapi.basestruct.GeoPoint;
 //import com.umeng.analytics.MobclickAgent;
+import dd.android.yeshi.core.ServiceYS;
 import roboguice.inject.InjectExtra;
 import roboguice.inject.InjectView;
+import roboguice.util.RoboAsyncTask;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static dd.android.yeshi.core.Constants.Extra.PROBLEM;
 
-public class ActivityLocate extends ActivityYS {
-    @InjectExtra(PROBLEM)
-    protected Problem problem;
+public class ActivityLocations extends ActivityYS {
     @InjectView(R.id.bmapView)
     protected MapView mMapView;
 
@@ -35,77 +42,18 @@ public class ActivityLocate extends ActivityYS {
 
     MKSearch mSearch = null;
 
+    List<Location> locations = new ArrayList<Location>();
+    private List<OverlayItem> GeoList = new ArrayList<OverlayItem>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_address);
+        setContentView(R.layout.act_locations);
 
         mMapController = mMapView.getController();
 
         mLocClient = new LocationClient(this);
         mLocClient.registerLocationListener(myListener);
-
-
-        mSearch = new MKSearch();
-        mSearch.init(FCApplication.getInstance().mBMapManager, new MKSearchListener() {
-            @Override
-            public void onGetPoiDetailSearchResult(int type, int error) {
-            }
-
-            public void onGetAddrResult(MKAddrInfo res, int error) {
-                if (error != 0) {
-                    String str = String.format("错误号：%d", error);
-                    Toast.makeText(ActivityLocate.this, str, Toast.LENGTH_LONG).show();
-                    return;
-                }
-                mMapView.getController().animateTo(res.geoPt);
-
-//                String strInfo = String.format("onGetAddrResult 纬度：%f 经度：%f\r\n", res.geoPt.getLatitudeE6()/1e6, res.geoPt.getLongitudeE6()/1e6);
-//
-//                Toast.makeText(ActivityLocate.this, strInfo, Toast.LENGTH_LONG).show();
-//                Drawable marker = getResources().getDrawable(R.drawable.icon_markf);  //得到需要标在地图上的资源
-//                marker.setBounds(0, 0, marker.getIntrinsicWidth(), marker.getIntrinsicHeight());   //为maker定义位置和边界
-                mMapView.getOverlays().clear();
-//                mMapView.getOverlays().add(new OverItemT(marker, ActivityLocate.this, res.geoPt, res.strAddr));
-                PoiOverlayFC poiOverlay = new PoiOverlayFC(ActivityLocate.this,mMapView);
-                if(res.poiList != null){
-                    poiOverlay.setData(res.poiList);
-                    mMapView.getOverlays().add(poiOverlay);
-                    mMapView.refresh();
-                    poiOverlay.animateTo();
-                }
-            }
-            public void onGetPoiResult(MKPoiResult res, int type, int error) {
-                if (error != 0 || res == null) {
-                    Toast.makeText(ActivityLocate.this, "onGetPoiResult 解析失败", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if (res != null && res.getCurrentNumPois() > 0) {
-                    GeoPoint ptGeo = res.getAllPoi().get(0).pt;
-                    // 移动地图到该点：
-                    mMapView.getController().animateTo(ptGeo);
-
-                    String strInfo = String.format("纬度：%f 经度：%f\r\n", ptGeo.getLatitudeE6() / 1e6, ptGeo.getLongitudeE6() / 1e6);
-                    strInfo += "\r\n附近有：";
-                    for (int i = 0; i < res.getAllPoi().size(); i++) {
-                        strInfo += (res.getAllPoi().get(i).name + ";");
-                    }
-                    Toast.makeText(ActivityLocate.this, strInfo, Toast.LENGTH_LONG).show();
-                }
-            }
-            public void onGetDrivingRouteResult(MKDrivingRouteResult res, int error) {
-            }
-            public void onGetTransitRouteResult(MKTransitRouteResult res, int error) {
-            }
-            public void onGetWalkingRouteResult(MKWalkingRouteResult res, int error) {
-            }
-            public void onGetBusDetailResult(MKBusLineResult result, int iError) {
-            }
-            @Override
-            public void onGetSuggestionResult(MKSuggestionResult res, int arg1) {
-            }
-
-        });
 
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true);//打开gps
@@ -115,8 +63,8 @@ public class ActivityLocate extends ActivityYS {
         option.setPriority(LocationClientOption.GpsFirst);
         mLocClient.setLocOption(option);
         mLocClient.start();
-        mMapView.getController().setZoom(14);
-        mMapView.getController().enableClick(true);
+        mMapView.getController().setZoom(16);
+//        mMapView.getController().enableClick(true);
 
         mMapView.displayZoomControls(true);
 //        mMapListener = new MKMapViewListener() {
@@ -132,27 +80,29 @@ public class ActivityLocate extends ActivityYS {
 //        mMapView.regMapViewListener(FCApplication.getInstance().mBMapManager, mMapListener);
         myLocationOverlay = new MyLocationOverlay(mMapView);
 //        set_mylocation(new LocationData());
-        problem_to_view();
+//        problem_to_view();
+
+        get_locations();
 
     }
 
-    private void problem_to_view() {
-        GeoPoint ptCenter = new GeoPoint((int)(problem.getLat() * 1E6),(int)(problem.getLng() * 1E6));
-        mSearch.reverseGeocode(ptCenter);
-//        PoiOverlayFC poiOverlay = new PoiOverlayFC(this, mMapView);
-//        ArrayList<MKPoiInfo> pois = new ArrayList<MKPoiInfo>();
-//        MKPoiInfo mkPoiInfo = new MKPoiInfo();
-//        mkPoiInfo.address = problem.getAddress();
-//        mkPoiInfo.pt = new GeoPoint((int)(problem.getLat() * 1E6),(int)(problem.getLng() * 1E6));
-//        mkPoiInfo.name = problem.getAddress();
-//        pois.add(mkPoiInfo);
-//        poiOverlay.setData(pois);
-//        mMapView.getOverlays().clear();
-//        mMapView.getOverlays().add(poiOverlay);
-        set_mylocation(locData);
-        mMapView.refresh();
-//        poiOverlay.animateTo();
-    }
+//    private void problem_to_view() {
+//        GeoPoint ptCenter = new GeoPoint((int)(problem.getLat() * 1E6),(int)(problem.getLng() * 1E6));
+//        mSearch.reverseGeocode(ptCenter);
+////        PoiOverlayFC poiOverlay = new PoiOverlayFC(this, mMapView);
+////        ArrayList<MKPoiInfo> pois = new ArrayList<MKPoiInfo>();
+////        MKPoiInfo mkPoiInfo = new MKPoiInfo();
+////        mkPoiInfo.address = problem.getAddress();
+////        mkPoiInfo.pt = new GeoPoint((int)(problem.getLat() * 1E6),(int)(problem.getLng() * 1E6));
+////        mkPoiInfo.name = problem.getAddress();
+////        pois.add(mkPoiInfo);
+////        poiOverlay.setData(pois);
+////        mMapView.getOverlays().clear();
+////        mMapView.getOverlays().add(poiOverlay);
+//        set_mylocation(locData);
+//        mMapView.refresh();
+////        poiOverlay.animateTo();
+//    }
 
     @Override
     protected void onPause() {
@@ -225,16 +175,71 @@ public class ActivityLocate extends ActivityYS {
                 mMapView.getOverlays().add(myLocationOverlay);
                 myLocationOverlay.enableCompass();
                 mMapView.refresh();
-                mMapController.animateTo(new GeoPoint((int) (locData.latitude * 1e6), (int) (locData.longitude * 1e6)));//, mHandler.obtainMessage(1));
+//                mMapController.animateTo(new GeoPoint((int) (locData.latitude * 1e6), (int) (locData.longitude * 1e6)));//, mHandler.obtainMessage(1));
             }
             else{
                 Log.e("new my location", String.format(" %s, %s", p_locData.latitude, p_locData.longitude));
                 locData = p_locData;
                 myLocationOverlay.setData(locData);
                 mMapView.refresh();
-                mMapController.animateTo(new GeoPoint((int) (locData.latitude * 1e6), (int) (locData.longitude * 1e6)));//, mHandler.obtainMessage(1));
+//                mMapController.animateTo(new GeoPoint((int) (locData.latitude * 1e6), (int) (locData.longitude * 1e6)));//, mHandler.obtainMessage(1));
             }
         }
+    }
+
+    void  get_locations(){
+        progressDialogShow();
+        new RoboAsyncTask<Boolean>(this) {
+            public Boolean call() throws Exception {
+                List<Location> get_locations = ServiceYS.getLocations();
+                if(get_locations != null && get_locations.size() > 0){
+                    locations.addAll(get_locations);
+                }
+                return true;
+            }
+
+            @Override
+            protected void onException(Exception e) throws RuntimeException {
+                e.printStackTrace();
+                Toaster.showLong(ActivityLocations.this, "获取商家定位失败。");
+//                setProgressBarVisibility(false);
+            }
+
+            @Override
+            public void onSuccess(Boolean relationship) {
+                locations_to_view();
+            }
+
+            @Override
+            protected void onFinally() throws RuntimeException {
+                progressDialogDismiss();
+//                setProgressBarVisibility(false);
+            }
+
+//            @Override
+//            public boolean cancel(boolean mayInterruptIfRunning) {
+//                return super.cancel()
+//                return task.cancel(mayInterruptIfRunning);
+//            }
+        }.execute();
+    }
+
+    private void locations_to_view() {
+        Drawable marker = getResources().getDrawable(R.drawable.icon_marka);
+        mMapView.getOverlays().add(new OverItemLocations(marker, locations)); //添加ItemizedOverlay实例到mMapView
+        mMapView.refresh();//刷新地图
+        mMapView.animate();
+        if(locations != null && locations.size() > 0){
+            Location location = locations.get(0);
+            GeoPoint pt = new GeoPoint((int)(location.getLat() * 1E6),(int)(location.getLng() * 1E6));
+            mMapController.animateTo(pt);//, mHandler.obtainMessage(1));
+        }
+
+//        for(Location location : locations)
+//        {
+//            GeoPoint pt = new GeoPoint((int)(location.getLat() * 1E6),(int)(location.getLng() * 1E6));
+//            GeoList.add(new OverlayItem(pt, "摊位位置", "商家前5次成功定位地点"));
+//        }
     }
 
 }
