@@ -31,7 +31,7 @@ public class ActivityLocations extends ActivityYS {
 
     private MapController mMapController = null;
 
-    public MKMapViewListener mMapListener = null;
+//    public MKMapViewListener mMapListener = null;
 
     // 定位相关
     LocationClient mLocClient;
@@ -40,10 +40,10 @@ public class ActivityLocations extends ActivityYS {
     MyLocationOverlay myLocationOverlay = null;
     LocationData locData = null;
 
-    MKSearch mSearch = null;
+//    MKSearch mSearch = null;
 
     List<Location> locations = new ArrayList<Location>();
-    private List<OverlayItem> GeoList = new ArrayList<OverlayItem>();
+//    private List<OverlayItem> GeoList = new ArrayList<OverlayItem>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -228,7 +228,6 @@ public class ActivityLocations extends ActivityYS {
         Drawable marker = getResources().getDrawable(R.drawable.icon_marka);
         mMapView.getOverlays().add(new OverItemLocations(marker, locations)); //添加ItemizedOverlay实例到mMapView
         mMapView.refresh();//刷新地图
-        mMapView.animate();
         if(locations != null && locations.size() > 0){
             Location location = locations.get(0);
             GeoPoint pt = new GeoPoint((int)(location.getLat() * 1E6),(int)(location.getLng() * 1E6));
