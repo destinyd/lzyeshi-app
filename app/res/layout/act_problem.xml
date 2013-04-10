@@ -94,14 +94,14 @@
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content">
                             <TextView
-                                    android:id="@+id/profile_address"
+                                    android:id="@+id/profile_location"
                                     android:text="地址"
                                     style="@style/Profile_Item_Top"/>
                             <TextView
                                     android:id="@+id/tv_address"
                                     android:text=""
                                     style="@style/Profile_Item_Bottom"
-                                    android:layout_below="@+id/profile_address"
+                                    android:layout_below="@+id/profile_location"
                                     />
                         </RelativeLayout>
                     </LinearLayout>

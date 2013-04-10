@@ -13,12 +13,14 @@ import roboguice.activity.RoboTabActivity;
 
 public class ActivityLauncher extends
         RoboTabActivity {
+    static protected ActivityLauncher factory = null;
     TabHost tabHost;
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.main);
+        factory = this;
 
         tabHost = getTabHost();
         setTabs();
@@ -58,5 +60,19 @@ public class ActivityLauncher extends
         System.exit(0);
     }
 
+    @Override
+    protected void onDestroy() {
+        factory = null;
+        super.onDestroy();    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    public static ActivityLauncher getFactory(){
+        if(factory == null)
+            new ActivityLauncher();
+        return factory;
+    }
+    public void changeTab(int i){
+        tabHost.setCurrentTab(i);
+    }
 
 }

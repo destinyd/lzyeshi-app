@@ -14,25 +14,25 @@ public class ActivitySettings extends ActivityYS {
 
 //    @InjectView(R.id.rl_isNotifi)
 //    protected RelativeLayout rl_isNotifi;
-    @InjectView(R.id.rl_isSoundNotifi)
-    protected RelativeLayout rl_isSoundNotifi;
-    @InjectView(R.id.rl_isShockNotifi)
-    protected RelativeLayout rl_isShockNotifi;
-    @InjectView(R.id.rl_isLightNotifi)
-    protected RelativeLayout rl_isLightNotifi;
-    @InjectView(R.id.rl_isNotDisturb)
-    protected RelativeLayout rl_isNotDisturb;
-
-    @InjectView(R.id.cb_isNotifi)
-    protected CheckBox cb_isNotifi;
-    @InjectView(R.id.cb_isSoundNotifi)
-    protected CheckBox cb_isSoundNotifi;
-    @InjectView(R.id.cb_isShockNotifi)
-    protected CheckBox cb_isShockNotifi;
-    @InjectView(R.id.cb_isLightNotifi)
-    protected CheckBox cb_isLightNotifi;
-    @InjectView(R.id.cb_isNotDisturb)
-    protected CheckBox cb_isNotDisturb;
+//    @InjectView(R.id.rl_isSoundNotifi)
+//    protected RelativeLayout rl_isSoundNotifi;
+//    @InjectView(R.id.rl_isShockNotifi)
+//    protected RelativeLayout rl_isShockNotifi;
+//    @InjectView(R.id.rl_isLightNotifi)
+//    protected RelativeLayout rl_isLightNotifi;
+//    @InjectView(R.id.rl_isNotDisturb)
+//    protected RelativeLayout rl_isNotDisturb;
+//
+//    @InjectView(R.id.cb_isNotifi)
+//    protected CheckBox cb_isNotifi;
+//    @InjectView(R.id.cb_isSoundNotifi)
+//    protected CheckBox cb_isSoundNotifi;
+//    @InjectView(R.id.cb_isShockNotifi)
+//    protected CheckBox cb_isShockNotifi;
+//    @InjectView(R.id.cb_isLightNotifi)
+//    protected CheckBox cb_isLightNotifi;
+//    @InjectView(R.id.cb_isNotDisturb)
+//    protected CheckBox cb_isNotDisturb;
 
 //    @Inject
 //    protected UserAvatarLoader avatarLoader;
@@ -61,18 +61,18 @@ public class ActivitySettings extends ActivityYS {
 
     private void settings_to_view() {
         notifi_rl_enable(sets().isNotifi);
-        cb_isNotifi.setChecked(sets().isNotifi);
-        cb_isSoundNotifi.setChecked(sets().isSoundNotifi);
-        cb_isShockNotifi.setChecked(sets().isShockNotifi);
-        cb_isLightNotifi.setChecked(sets().isLightNotifi);
-        cb_isNotDisturb.setChecked(sets().isNotDisturb);
+//        cb_isNotifi.setChecked(sets().isNotifi);
+//        cb_isSoundNotifi.setChecked(sets().isSoundNotifi);
+//        cb_isShockNotifi.setChecked(sets().isShockNotifi);
+//        cb_isLightNotifi.setChecked(sets().isLightNotifi);
+//        cb_isNotDisturb.setChecked(sets().isNotDisturb);
     }
 
     private void notifi_rl_enable(boolean isEnable) {
-        cb_isSoundNotifi.setEnabled(isEnable);
-        cb_isShockNotifi.setEnabled(isEnable);
-        cb_isLightNotifi.setEnabled(isEnable);
-        cb_isNotDisturb.setEnabled(isEnable);
+//        cb_isSoundNotifi.setEnabled(isEnable);
+//        cb_isShockNotifi.setEnabled(isEnable);
+//        cb_isLightNotifi.setEnabled(isEnable);
+//        cb_isNotDisturb.setEnabled(isEnable);
 //        rl_isSoundNotifi.setEnabled(isEnable);
 //        rl_isLightNotifi.setEnabled(isEnable);
 //        rl_isShockNotifi.setEnabled(isEnable);
@@ -80,23 +80,23 @@ public class ActivitySettings extends ActivityYS {
     }
 
     public void handleCbChange(View v){
-        CheckBox cb = (CheckBox)v;
-        if(cb_isNotifi.equals(v)){
-            notifi_rl_enable(cb.isChecked());
-            sets().isNotifi = cb.isChecked();
-        }
-        else if(cb_isSoundNotifi.equals(v)){
-            sets().isSoundNotifi = cb.isChecked();
-        }
-        else if(cb_isShockNotifi.equals(v)){
-            sets().isShockNotifi = cb.isChecked();
-        }
-        else if(cb_isLightNotifi.equals(v)){
-            sets().isLightNotifi = cb.isChecked();
-        }
-        else if(cb_isNotDisturb.equals(v)){
-            sets().isNotDisturb = cb.isChecked();
-        }
+//        CheckBox cb = (CheckBox)v;
+//        if(cb_isNotifi.equals(v)){
+//            notifi_rl_enable(cb.isChecked());
+//            sets().isNotifi = cb.isChecked();
+//        }
+//        else if(cb_isSoundNotifi.equals(v)){
+//            sets().isSoundNotifi = cb.isChecked();
+//        }
+//        else if(cb_isShockNotifi.equals(v)){
+//            sets().isShockNotifi = cb.isChecked();
+//        }
+//        else if(cb_isLightNotifi.equals(v)){
+//            sets().isLightNotifi = cb.isChecked();
+//        }
+//        else if(cb_isNotDisturb.equals(v)){
+//            sets().isNotDisturb = cb.isChecked();
+//        }
     }
 
     private Settings sets(){

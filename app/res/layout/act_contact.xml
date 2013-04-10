@@ -94,14 +94,14 @@
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content">
                             <TextView
-                                    android:id="@+id/profile_address"
+                                    android:id="@+id/profile_location"
                                     android:text="摊位常驻地点"
                                     style="@style/Profile_Item_Top"/>
                             <TextView
                                     android:id="@+id/tv_address"
                                     android:text="柳州市金鱼巷牛肉粉店旁"
                                     style="@style/Profile_Item_Bottom"
-                                    android:layout_below="@+id/profile_address"
+                                    android:layout_below="@+id/profile_location"
                                     />
                         </RelativeLayout>
                     </LinearLayout>
@@ -118,14 +118,16 @@
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content">
                             <TextView
-                                    android:id="@+id/profile_address"
+                                    android:id="@+id/profile_location"
                                     android:text="当前所在位置"
                                     style="@style/Profile_Item_Top"/>
                             <TextView
                                     android:id="@+id/tv_address"
                                     android:text="点击查看"
                                     style="@style/Profile_Item_Bottom"
-                                    android:layout_below="@+id/profile_address"
+                                    android:layout_below="@+id/profile_location"
+                                    android:onClick="handleLocation"
+                                    android:clickable="true"
                                     />
                         </RelativeLayout>
                     </LinearLayout>
