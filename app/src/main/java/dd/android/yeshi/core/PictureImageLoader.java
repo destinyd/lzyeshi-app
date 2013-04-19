@@ -5,12 +5,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 import com.actionbarsherlock.app.ActionBar;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.inject.Inject;
+import dd.android.common.SDCard;
 import dd.android.yeshi.R;
 import roboguice.util.RoboAsyncTask;
 
@@ -23,8 +25,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static dd.android.yeshi.core.Constants.Http.*;
 import static dd.android.yeshi.core.Constants.Http.URL_BASE;
+import static dd.android.yeshi.core.Constants.Setting.SDCARD_PATH;
 import static android.graphics.Bitmap.CompressFormat.PNG;
 import static android.graphics.Bitmap.Config.ARGB_8888;
 import static android.view.View.VISIBLE;
@@ -56,7 +58,7 @@ public class PictureImageLoader {
         }
     }
 
-    private final float cornerRadius;
+    private float cornerRadius;
 
     private final Map<Object, BitmapDrawable> loaded = new LinkedHashMap<Object, BitmapDrawable>(
             CACHE_SIZE, 1.0F) {
@@ -72,11 +74,11 @@ public class PictureImageLoader {
 
     private final Context context;
 
-    private final File avatarDir;
+    private File picturesDir;
 
     private final Drawable loadingAvatar;
 
-    private final BitmapFactory.Options options;
+    private BitmapFactory.Options options;
 
     private String type = "icon";
 
@@ -91,9 +93,15 @@ public class PictureImageLoader {
 
         loadingAvatar = context.getResources().getDrawable(R.drawable.gravatar_icon);
 
-        avatarDir = new File(context.getCacheDir(), "avatars/" + context.getPackageName());
-        if (!avatarDir.isDirectory())
-            avatarDir.mkdirs();
+        if (SDCard.hasSdcard())
+        {
+        File sd_path = Environment
+                .getExternalStorageDirectory();
+
+//        picturesDir = new File(context.getCacheDir(), "pictures/" + context.getPackageName());
+        picturesDir = new File(sd_path, SDCARD_PATH + "/pictures");
+        if (!picturesDir.isDirectory())
+            picturesDir.mkdirs();
 
         float density = context.getResources().getDisplayMetrics().density;
         cornerRadius = CORNER_RADIUS_IN_DIP * density;
@@ -101,16 +109,17 @@ public class PictureImageLoader {
         options = new BitmapFactory.Options();
         options.inDither = false;
         options.inPreferredConfig = ARGB_8888;
+        }
     }
 
     /**
-     * Get image for Picture
+     * Get image for picture
      *
-     * @param Picture
+     * @param picture
      * @return image
      */
-    protected BitmapDrawable getImage(final Picture Picture) {
-        File avatarFile = new File(avatarDir, Picture._id + type);
+    protected BitmapDrawable getImage(final Picture picture) {
+        File avatarFile = new File(picturesDir, picture.getTypeImageUrl(type));
 
         if (!avatarFile.exists() || avatarFile.length() == 0)
             return null;
@@ -123,27 +132,6 @@ public class PictureImageLoader {
             return null;
         }
     }
-
-//    /**
-//     * Get image for Picture
-//     *
-//     * @param Picture
-//     * @return image
-//     */
-//    protected BitmapDrawable getImage(final CommitPicture Picture) {
-//        File avatarFile = new File(avatarDir, Picture.getEmail());
-//
-//        if (!avatarFile.exists() || avatarFile.length() == 0)
-//            return null;
-//
-//        Bitmap bitmap = decode(avatarFile);
-//        if (bitmap != null)
-//            return new BitmapDrawable(context.getResources(), bitmap);
-//        else {
-//            avatarFile.delete();
-//            return null;
-//        }
-//    }
 
     /**
      * Decode file to bitmap
@@ -163,7 +151,9 @@ public class PictureImageLoader {
      * @return bitmap
      */
     protected BitmapDrawable fetchAvatar(final String url, final String pictureId) {
-        File rawAvatar = new File(avatarDir, pictureId + "-raw");
+        File rawAvatar = new File(picturesDir, pictureId + "-raw");
+        if(!rawAvatar.getParentFile().isDirectory())
+            rawAvatar.getParentFile().mkdirs();
         HttpRequest request = HttpRequest.get(url);
         if (request.ok())
             request.receive(rawAvatar);
@@ -183,7 +173,9 @@ public class PictureImageLoader {
             return null;
         }
 
-        File roundedAvatar = new File(avatarDir, pictureId.toString());
+        File roundedAvatar = new File(picturesDir, pictureId.toString());
+        if(!roundedAvatar.getParentFile().isDirectory())
+            roundedAvatar.getParentFile().mkdirs();
         FileOutputStream output = null;
         try {
             output = new FileOutputStream(roundedAvatar);
@@ -205,66 +197,6 @@ public class PictureImageLoader {
         }
     }
 
-    /**
-     * Sets the logo on the {@link com.actionbarsherlock.app.ActionBar} to the Picture's avatar.
-     *
-     * @param actionBar
-     * @param Picture
-     * @return this helper
-     */
-    public PictureImageLoader bind(final ActionBar actionBar, final Picture Picture) {
-        return bind(actionBar, new AtomicReference<Picture>(Picture));
-    }
-
-    /**
-     * Sets the logo on the {@link com.actionbarsherlock.app.ActionBar} to the Picture's avatar.
-     *
-     * @param actionBar
-     * @param pictureReference
-     * @return this helper
-     */
-    public PictureImageLoader bind(final ActionBar actionBar,
-                             final AtomicReference<Picture> pictureReference) {
-        if (pictureReference == null)
-            return this;
-
-        final Picture picture = pictureReference.get();
-        if (picture == null)
-            return this;
-
-        final String avatarUrl = picture.getThumbUrl();
-        if (TextUtils.isEmpty(avatarUrl))
-            return this;
-
-        final String pictureId = picture._id;
-
-        BitmapDrawable loadedImage = loaded.get(pictureId);
-        if (loadedImage != null) {
-            actionBar.setLogo(loadedImage);
-            return this;
-        }
-
-        new FetchAvatarTask(context) {
-
-            @Override
-            public BitmapDrawable call() throws Exception {
-                final BitmapDrawable image = getImage(picture);
-                if (image != null)
-                    return image;
-                else
-                    return fetchAvatar(avatarUrl, pictureId.toString());
-            }
-
-            @Override
-            protected void onSuccess(BitmapDrawable image) throws Exception {
-                final Picture current = pictureReference.get();
-                if (current != null && pictureId.equals(current._id))
-                    actionBar.setLogo(image);
-            }
-        }.execute();
-
-        return this;
-    }
 
     private PictureImageLoader setImage(final Drawable image, final ImageView view) {
         return setImage(image, view, null);
@@ -281,20 +213,8 @@ public class PictureImageLoader {
     private String getAvatarUrl(Picture picture,String type) {
         this.type = type;
         String avatarUrl = URL_BASE;
-        if(type.equals("thumb")){
-            avatarUrl += picture.getThumbUrl();
-
-        }else if(type.equals("android")){
-            avatarUrl += picture.getAndroidUrl();
-        }else{
-            avatarUrl += picture.getUrl();
-        }
-        return avatarUrl;
+        return avatarUrl + picture.getTypeImageUrl(type);
     }
-
-//    private String getAvatarUrl(CommitPicture Picture) {
-//        return getAvatarUrl(GravatarUtils.getHash(Picture.getEmail()));
-//    }
 
     /**
      * Bind view to image at URL
@@ -312,13 +232,8 @@ public class PictureImageLoader {
             return setImage(loadingAvatar, view);
 
         String avatarUrl = getAvatarUrl(picture,type);
-//        if(avatarUrl.startsWith(URL_BASE + "/assets/noface") || TextUtils.isEmpty(avatarUrl))
-//        {
-////            if (TextUtils.isEmpty(avatarUrl))
-//            return setImage(loadingAvatar, view);
-//        }
 
-        final String pictureId = picture._id + type;
+        final String pictureId = picture.getTypeImageUrl(type);
 
         BitmapDrawable loadedImage = loaded.get(pictureId);
         if (loadedImage != null)
@@ -356,58 +271,5 @@ public class PictureImageLoader {
         return this;
     }
 
-//    /**
-//     * Bind view to image at URL
-//     *
-//     * @param view
-//     * @param Picture
-//     * @return this helper
-//     */
-//    public AvatarLoader bind(final ImageView view, final CommitPicture Picture) {
-//        if (Picture == null)
-//            return setImage(loadingAvatar, view);
-//
-//        String avatarUrl = getAvatarUrl(Picture);
-//
-//        if (TextUtils.isEmpty(avatarUrl))
-//            return setImage(loadingAvatar, view);
-//
-//        final String pictureId = Picture.getEmail();
-//
-//        BitmapDrawable loadedImage = loaded.get(pictureId);
-//        if (loadedImage != null)
-//            return setImage(loadedImage, view);
-//
-//        setImage(loadingAvatar, view, pictureId);
-//
-//        final String loadUrl = avatarUrl;
-//        new FetchAvatarTask(context) {
-//
-//            @Override
-//            public BitmapDrawable call() throws Exception {
-//                if (!userId.equals(view.getTag(id.iv_image)))
-//                    return null;
-//
-//                final BitmapDrawable image = getImage(Picture);
-//                if (image != null)
-//                    return image;
-//                else
-//                    return fetchAvatar(loadUrl, pictureId);
-//            }
-//
-//            @Override
-//            protected void onSuccess(final BitmapDrawable image)
-//                    throws Exception {
-//                if (image == null)
-//                    return;
-//                loaded.put(pictureId, image);
-//                if (pictureId.equals(view.getTag(id.iv_image)))
-//                    setImage(image, view);
-//            }
-//
-//        }.execute();
-//
-//        return this;
-//    }
 }
 

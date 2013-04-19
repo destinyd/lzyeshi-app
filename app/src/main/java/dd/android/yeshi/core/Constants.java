@@ -245,7 +245,7 @@ public class Constants {
     public static class Setting {
         private Setting() {
         }
-        public static final String SDCARD_PATH = "/.fc";
+        public static final String SDCARD_PATH = "/.yeshi";
         public static final String FILE_NAME = "settings.json";
     }
 

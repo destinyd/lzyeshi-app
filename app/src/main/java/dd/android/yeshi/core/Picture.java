@@ -110,4 +110,18 @@ public class Picture implements Serializable {
         else
             return image.getAndroid().getUrl();
     }
+
+    public String getTypeImageUrl(String type){
+        if(type == null || type.equals(""))
+        {
+            return getUrl();
+        }
+        else if(type.equals("thumb")){
+            return getThumbUrl();
+        }
+        else if(type.equals("android")){
+            return getAndroidUrl();
+        }
+        return getUrl();
+    }
 }
