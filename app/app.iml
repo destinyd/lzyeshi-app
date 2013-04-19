@@ -55,22 +55,17 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: xerces:xmlParserAPIs:2.6.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: xpp3:xpp3:1.1.4c" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.json:json:20080701" level="project" />
+    <orderEntry type="library" name="Maven: com.saulpower.fayeclient:library:1.1" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.1.27" level="project" />
-    <orderEntry type="library" name="Maven: com.slidingmenu:library:apklib:1.2" level="project" />
     <orderEntry type="library" name="Maven: com.google.android.maps:maps:17_r1" level="project" />
     <orderEntry type="library" name="Maven: com.google.android:support-v4:r7" level="project" />
-    <orderEntry type="library" name="Maven: com.actionbarsherlock:actionbarsherlock:apklib:4.2.0" level="project" />
     <orderEntry type="library" name="Maven: com.github.rtyley:roboguice-sherlock:1.4" level="project" />
     <orderEntry type="library" name="Maven: org.roboguice:roboguice:2.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.inject:guice:no_aop:3.0" level="project" />
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
-    <orderEntry type="library" name="Maven: com.github.chrisbanes.pulltorefresh:library:apklib:2.1.1" level="project" />
-    <orderEntry type="library" name="Maven: com.costum:loadmorelistview:apklib:0.1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.actionbarsherlock:actionbarsherlock:4.2.0" level="project" />
     <orderEntry type="library" name="Maven: com.github.kevinsawicki:http-request:2.1" level="project" />
-    <orderEntry type="library" name="Maven: com.viewpagerindicator:library:apklib:2.4.1" level="project" />
-    <orderEntry type="library" name="Maven: com.github.kevinsawicki:wishlist:apklib:0.8" level="project" />
     <orderEntry type="module" module-name="~apklib-com.slidingmenu_library_1.2" />
     <orderEntry type="module" module-name="~apklib-com.actionbarsherlock_actionbarsherlock_4.2.0" />
     <orderEntry type="module" module-name="~apklib-com.github.chrisbanes.pulltorefresh_library_2.1.1" />
