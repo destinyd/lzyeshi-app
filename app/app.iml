@@ -46,6 +46,12 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Maven: com.slidingmenu:library:apklib:1.2" level="project" />
+    <orderEntry type="library" name="Maven: com.actionbarsherlock:actionbarsherlock:apklib:4.2.0" level="project" />
+    <orderEntry type="library" name="Maven: com.github.chrisbanes.pulltorefresh:library:apklib:2.1.1" level="project" />
+    <orderEntry type="library" name="Maven: com.costum:loadmorelistview:apklib:0.1.0" level="project" />
+    <orderEntry type="library" name="Maven: com.viewpagerindicator:library:apklib:2.4.1" level="project" />
+    <orderEntry type="library" name="Maven: com.github.kevinsawicki:wishlist:apklib:0.8" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.android:android:4.1.1.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: commons-logging:commons-logging:1.1.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.httpcomponents:httpclient:4.0.1" level="project" />

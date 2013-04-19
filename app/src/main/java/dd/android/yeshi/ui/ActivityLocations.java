@@ -52,17 +52,6 @@ public class ActivityLocations extends ActivityYS {
 
         mMapController = mMapView.getController();
 
-        mLocClient = new LocationClient(this);
-        mLocClient.registerLocationListener(myListener);
-
-        LocationClientOption option = new LocationClientOption();
-        option.setOpenGps(true);//打开gps
-        option.setCoorType("bd09ll");     //设置坐标类型
-        option.setScanSpan(30000);//5s for test
-        option.setAddrType("all");
-        option.setPriority(LocationClientOption.GpsFirst);
-        mLocClient.setLocOption(option);
-        mLocClient.start();
         mMapView.getController().setZoom(16);
 //        mMapView.getController().enableClick(true);
 
@@ -78,11 +67,43 @@ public class ActivityLocations extends ActivityYS {
 //            }
 //        };
 //        mMapView.regMapViewListener(FCApplication.getInstance().mBMapManager, mMapListener);
-        myLocationOverlay = new MyLocationOverlay(mMapView);
+
+
+        bindLocClient();
+
 //        set_mylocation(new LocationData());
 //        problem_to_view();
 
         get_locations();
+
+    }
+
+    private void bindLocClient() {
+        new RoboAsyncTask<Boolean>(this) {
+            public Boolean call() throws Exception {
+                return true;
+            }
+
+            @Override
+            protected void onException(Exception e) throws RuntimeException {
+            }
+
+            @Override
+            public void onSuccess(Boolean relationship) {
+                mLocClient = new LocationClient(ActivityLocations.this);
+                mLocClient.registerLocationListener(myListener);
+
+                LocationClientOption option = new LocationClientOption();
+                option.setOpenGps(true);//打开gps
+                option.setCoorType("bd09ll");     //设置坐标类型
+                option.setScanSpan(30000);//5s for test
+                option.setAddrType("all");
+                option.setPriority(LocationClientOption.GpsFirst);
+                mLocClient.setLocOption(option);
+                mLocClient.start();
+                myLocationOverlay = new MyLocationOverlay(mMapView);
+            }
+        }.execute();
 
     }
 

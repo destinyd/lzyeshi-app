@@ -16,6 +16,7 @@ public class Group implements Serializable {
 
     public String _id;
     String name;
+    int commodities_count;
 
     public String get_id() {
         return _id;
@@ -31,5 +32,13 @@ public class Group implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getCommodities_count() {
+        return commodities_count;
+    }
+
+    public void setCommodities_count(int commodities_count) {
+        this.commodities_count = commodities_count;
     }
 }

@@ -37,7 +37,7 @@ public class ActivitySettings extends ActivityYS {
 //    @Inject
 //    protected UserAvatarLoader avatarLoader;
 
-    private RoboAsyncTask<Boolean> task = null;
+//    private RoboAsyncTask<Boolean> task = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,22 +53,26 @@ public class ActivitySettings extends ActivityYS {
 //        settings_to_view();
     }
 
-    @Override
-    protected void onDestroy() {
-        PropertiesController.writeConfiguration();
-        super.onDestroy();    //To change body of overridden methods use File | Settings | File Templates.
+    public void handleExit(View v){
+        System.exit(0);
     }
 
-    private void settings_to_view() {
-        notifi_rl_enable(sets().isNotifi);
+//    @Override
+//    protected void onDestroy() {
+//        PropertiesController.writeConfiguration();
+//        super.onDestroy();    //To change body of overridden methods use File | Settings | File Templates.
+//    }
+
+//    private void settings_to_view() {
+//        notifi_rl_enable(sets().isNotifi);
 //        cb_isNotifi.setChecked(sets().isNotifi);
 //        cb_isSoundNotifi.setChecked(sets().isSoundNotifi);
 //        cb_isShockNotifi.setChecked(sets().isShockNotifi);
 //        cb_isLightNotifi.setChecked(sets().isLightNotifi);
 //        cb_isNotDisturb.setChecked(sets().isNotDisturb);
-    }
+//    }
 
-    private void notifi_rl_enable(boolean isEnable) {
+//    private void notifi_rl_enable(boolean isEnable) {
 //        cb_isSoundNotifi.setEnabled(isEnable);
 //        cb_isShockNotifi.setEnabled(isEnable);
 //        cb_isLightNotifi.setEnabled(isEnable);
@@ -77,9 +81,9 @@ public class ActivitySettings extends ActivityYS {
 //        rl_isLightNotifi.setEnabled(isEnable);
 //        rl_isShockNotifi.setEnabled(isEnable);
 //        rl_isNotDisturb.setEnabled(isEnable);
-    }
+//    }
 
-    public void handleCbChange(View v){
+//    public void handleCbChange(View v){
 //        CheckBox cb = (CheckBox)v;
 //        if(cb_isNotifi.equals(v)){
 //            notifi_rl_enable(cb.isChecked());
@@ -97,11 +101,11 @@ public class ActivitySettings extends ActivityYS {
 //        else if(cb_isNotDisturb.equals(v)){
 //            sets().isNotDisturb = cb.isChecked();
 //        }
-    }
-
-    private Settings sets(){
-        return Settings.getFactory();
-    }
+//    }
+//
+//    private Settings sets(){
+//        return Settings.getFactory();
+//    }
 
     @Override
     protected void onPause() {
