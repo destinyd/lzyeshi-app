@@ -1,6 +1,8 @@
 package dd.android.yeshi.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import roboguice.inject.InjectView;
 import roboguice.util.RoboAsyncTask;
 
 import static dd.android.yeshi.core.Constants.Extra.COMMODITY;
+import static dd.android.yeshi.core.Constants.Extra.TRADER;
 //import com.umeng.analytics.MobclickAgent;
 
 
@@ -62,6 +65,13 @@ public class ActivityCommodity extends ActivityYS {
 
         commodity_to_view();
         getGroupAndTrader();
+
+        tv_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ActivityCommodity.this,ActivityTraderLocations.class).putExtra(TRADER,trader));
+            }
+        });
     }
 
     private void commodity_to_view() {

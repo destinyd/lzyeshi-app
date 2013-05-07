@@ -137,6 +137,9 @@
         <activity
                 android:name=".ui.ActivityCommodity"
                 />
+        <activity
+                android:name=".ui.ActivityTraderLocations"
+                />
         <!--<service-->
                 <!--android:name=".service.ProblemsService"-->
                 <!--android:process=":message" >-->

@@ -73,6 +73,8 @@ public class Constants {
 
         public static final String URL_LOCATIONS = URL_BASE + "/locations.json";
 
+        public static final String FORMAT_URL_TRADER_LOCATIONS = URL_BASE + "/traders/%s/locations.json";
+
         public static final String FORMAT_URL_COMMODITIES = URL_BASE + "/commodities.json?page=%d";
 
         public static final String FORMAT_URL_GROUP_COMMODITIES = URL_BASE + "/groups/%s/commodities.json?page=%d";
@@ -186,6 +188,7 @@ public class Constants {
         public static final String GROUP = "Group";
         public static final String APIKEY = "APIKEY";
         public static final String COMMODITY = "Commodity";
+        public static final String TRADER = "Trader";
 
     }
 
