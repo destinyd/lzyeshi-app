@@ -1,6 +1,7 @@
 
 package dd.android.yeshi.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +18,8 @@ import roboguice.util.RoboAsyncTask;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static dd.android.yeshi.core.Constants.Extra.COMMODITY;
 
 /**
  * Activity to authenticate the ABUser against an API (example API on Parse.com)
@@ -108,7 +111,8 @@ public class ActivityCommodities extends
     }
 
     public void onListItemClick(LoadMoreListView l, View v, int position, long id) {
-        Commodity problem = ((Commodity) l.getItemAtPosition(position));
+        Commodity commodity = ((Commodity) l.getItemAtPosition(position));
+        startActivity(new Intent(this, ActivityCommodity.class).putExtra(COMMODITY,commodity));
     }
 
     private void commodities_to_list() {

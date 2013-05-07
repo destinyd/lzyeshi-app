@@ -19,7 +19,7 @@ public class ActivityLauncher extends
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        setContentView(R.layout.main);
+        setContentView(R.layout.act_main);
         factory = this;
 
         tabHost = getTabHost();

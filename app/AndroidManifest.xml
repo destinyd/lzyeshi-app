@@ -134,6 +134,9 @@
         <activity
                 android:name=".ui.ActivityContact"
                 />
+        <activity
+                android:name=".ui.ActivityCommodity"
+                />
         <!--<service-->
                 <!--android:name=".service.ProblemsService"-->
                 <!--android:process=":message" >-->

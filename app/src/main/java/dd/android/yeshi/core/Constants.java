@@ -67,6 +67,10 @@ public class Constants {
 
         public static final String URL_GROUPS = URL_BASE + "/groups.json";
 
+        public static final String FORMAT_URL_GROUP = URL_BASE + "/groups/%s.json";
+
+        public static final String FORMAT_URL_TRADER = URL_BASE + "/traders/%s.json";
+
         public static final String URL_LOCATIONS = URL_BASE + "/locations.json";
 
         public static final String FORMAT_URL_COMMODITIES = URL_BASE + "/commodities.json?page=%d";

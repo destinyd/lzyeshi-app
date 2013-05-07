@@ -46,6 +46,28 @@ public class ServiceYS {
 //        return result_problem;
 //    }
 
+    public static Trader getTrader(String id) throws IOException {
+        try {
+            HttpRequest request = get(String.format(FORMAT_URL_TRADER,id) );
+            String body = request.body();
+            Trader response = JSON.parseObject(body, Trader.class);
+            return response;
+        } catch (HttpRequest.HttpRequestException e) {
+            throw e.getCause();
+        }
+    }
+
+    public static Group getGroup(String id) throws IOException {
+        try {
+            HttpRequest request = get(String.format(FORMAT_URL_GROUP,id) );
+            String body = request.body();
+            Group response = JSON.parseObject(body, Group.class);
+            return response;
+        } catch (HttpRequest.HttpRequestException e) {
+            throw e.getCause();
+        }
+    }
+
     public static List<Group> getGroups(int page) throws IOException {
         try {
             HttpRequest request = get(URL_GROUPS + "?page=" + String.valueOf(page));
