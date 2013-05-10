@@ -73,6 +73,10 @@ public class Constants {
 
         public static final String URL_LOCATIONS = URL_BASE + "/locations.json";
 
+        public static final String CHAT_MESSAGES = URL_BASE + "/commodities/%s/chat_messages.json";
+
+        public static final String FORMAT_URL_COMMODITY_CHAT_MESSAGES = URL_BASE + "/commodities/%s/chat_messages.json";
+
         public static final String FORMAT_URL_TRADER_LOCATIONS = URL_BASE + "/traders/%s/locations.json";
 
         public static final String FORMAT_URL_COMMODITIES = URL_BASE + "/commodities.json?page=%d";

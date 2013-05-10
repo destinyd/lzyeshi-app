@@ -127,6 +127,34 @@ public class ServiceYS {
         }
     }
 
+    public static ChatMessage postChatMessage(ChatMessage chatMessage)  throws IOException  {
+        try {
+            String url;
+            HttpRequest request;
+            if(chatMessage.commodity_id != null)
+            {
+                url = String.format(FORMAT_URL_COMMODITY_CHAT_MESSAGES,chatMessage.commodity_id);
+                request = post(url)
+                        .part("chat_message[name]", chatMessage.getName())
+                        .part("chat_message[content]", chatMessage.getContent())
+                        .part("chat_message[commodity_id]", chatMessage.getCommodity_id())
+                ;
+            }
+            else
+            {
+                url = CHAT_MESSAGES;
+                request = post(url)
+                        .part("chat_message[name]", chatMessage.getName())
+                        .part("chat_message[content]", chatMessage.getContent());
+            }
+            String body = request.body();
+            ChatMessage response = JSON.parseObject(body, ChatMessage.class);
+            return response;
+        } catch (HttpRequest.HttpRequestException e) {
+            throw e.getCause();
+        }
+    }
+
 //    public static List<Price> getPrices(String uuid) throws IOException {
 //        try {
 //            HttpRequest request = get(URL_PRICING + "?" + "uuid=" + uuid);

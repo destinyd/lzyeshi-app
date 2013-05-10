@@ -14,7 +14,7 @@ public class Trader implements Serializable {
     private static final long serialVersionUID = 102057195843891457L;
 
     public String _id, user_id;
-    String name;
+    String name,user_name;
     int commodities_count;
     Date created_at;
 
@@ -56,5 +56,13 @@ public class Trader implements Serializable {
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 }

@@ -3,7 +3,6 @@ package dd.android.yeshi.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -64,14 +63,24 @@ public class ActivityCommodity extends ActivityYS {
 
 
         commodity_to_view();
-        getGroupAndTrader();
+        get_group_and_trader();
 
-        tv_location.setOnClickListener(new View.OnClickListener() {
+        bind_click_handler();
+    }
+
+    private void bind_click_handler() {
+        View.OnClickListener vcl = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ActivityCommodity.this,ActivityTraderLocations.class).putExtra(TRADER,trader));
+                if(tv_location.equals(view))
+                    startActivity(new Intent(ActivityCommodity.this,ActivityTraderLocations.class).putExtra(TRADER,trader));
+                else if(tv_message.equals(view))
+                    startActivity(new Intent(ActivityCommodity.this,ActivityChat.class).putExtra(TRADER,trader).putExtra(COMMODITY, commodity));
             }
-        });
+        };
+
+        tv_location.setOnClickListener(vcl);
+        tv_message.setOnClickListener(vcl);
     }
 
     private void commodity_to_view() {
@@ -94,7 +103,7 @@ public class ActivityCommodity extends ActivityYS {
         }
     }
 
-    protected void getGroupAndTrader() {
+    protected void get_group_and_trader() {
         new RoboAsyncTask<Boolean>(this) {
             public Boolean call() throws Exception {
                 group = ServiceYS.getGroup(commodity.group_id);

@@ -74,4 +74,7 @@
     <string name="hint_address_plus">几栋几单元几楼几号房</string>
     <string name="submit">提交</string>
     <string name="wait">敬请期待</string>
+    <string name="label_user_name">用户名(*)</string>
+    <string name="label_content">内容(*)</string>
+    <string name="label_chatable">商品</string>
 </resources>

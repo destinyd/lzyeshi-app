@@ -140,6 +140,9 @@
         <activity
                 android:name=".ui.ActivityTraderLocations"
                 />
+        <activity
+                android:name=".ui.ActivityChat"
+                />
         <!--<service-->
                 <!--android:name=".service.ProblemsService"-->
                 <!--android:process=":message" >-->
