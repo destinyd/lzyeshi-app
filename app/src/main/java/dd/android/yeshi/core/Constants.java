@@ -34,22 +34,22 @@ public class Constants {
 //         */
 //        public static final String AUTHTOKEN_TYPE = BOOTSTRAP_ACCOUNT_TYPE;
 
-        public static final String FIXCOMPUTER_ACCOUNT_TYPE = "dd.android.yeshi";
+        public static final String YESHI_ACCOUNT_TYPE = "dd.android.yeshi";
 
         /**
          * Account name
          */
-        public static final String FIXCOMPUTER_ACCOUNT_NAME = "Yeshi";
+        public static final String YESHI_ACCOUNT_NAME = "Yeshi";
 
         /**
          * Provider id
          */
-        public static final String FIXCOMPUTER_PROVIDER_AUTHORITY = "dd.android.yeshi.sync";
+        public static final String YESHI_PROVIDER_AUTHORITY = "dd.android.yeshi.sync";
 
         /**
          * Auth token type
          */
-        public static final String AUTHTOKEN_TYPE = FIXCOMPUTER_ACCOUNT_TYPE;
+        public static final String AUTHTOKEN_TYPE = YESHI_ACCOUNT_TYPE;
     }
 
     /**
@@ -73,10 +73,6 @@ public class Constants {
 
         public static final String URL_LOCATIONS = URL_BASE + "/locations.json";
 
-        public static final String CHAT_MESSAGES = URL_BASE + "/commodities/%s/chat_messages.json";
-
-        public static final String FORMAT_URL_COMMODITY_CHAT_MESSAGES = URL_BASE + "/commodities/%s/chat_messages.json";
-
         public static final String FORMAT_URL_TRADER_LOCATIONS = URL_BASE + "/traders/%s/locations.json";
 
         public static final String FORMAT_URL_COMMODITIES = URL_BASE + "/commodities.json?page=%d";
@@ -93,12 +89,16 @@ public class Constants {
 //
 //        public static final String URL_PRICING = URL_BASE + "/pricing.json";
 //        public static final String URL_BASE = "http://fixcomputer.com";
-
-//        public static final String API_BASE = URL_BASE + "/api/v1";
         /**
          * Authentication URL
          */
-//        public static final String URL_AUTH = URL_BASE + "/oauth/token";
+        public static final String URL_AUTH = URL_BASE + "/oauth/token";
+
+        public static final String API_BASE = "http://api.ysdev.realityandapp.com/v1";
+
+        public static final String CHAT_MESSAGES = API_BASE + "/chat_messages.json";
+
+        public static final String FORMAT_URL_COMMODITY_CHAT_MESSAGES = API_BASE + "/chat_messages.json?commodity_id=%s";
 
 //        public static final String URL_TEST = API_BASE + "/test";
 //        public static final String URL_REG = API_BASE + "/reg";
@@ -144,18 +144,18 @@ public class Constants {
 //        public static final String FORMAT_URL_ACTIVITY_INVITE_FRIEND = API_BASE + "/activities/%s/invite.json";
 //        public static final String FORMAT_ACCESS_TOKEN = "%s=%s";
 //
-//        public static final String PARSE_APP_ID = "78e00ce282ab3e3357af2e40c38050ef4e3fa85a8584790950efcfdb717786e3";
-//        public static final String PARSE_REST_API_KEY = "976d0d4ab74708ae5c3b8ef0f5723a5fc72df5692c5f452c20d87c5673c1b6e4";
-//        public static final String HEADER_PARSE_REST_API_KEY = "client_secret";
-//            public static final String HEADER_PARSE_APP_ID = "client_id";
-//        public static final String CONTENT_TYPE_JSON = "application/json";
-//        public static final String USERNAME = "username";
-//        public static final String PASSWORD = "password";
-//        public static final String SESSION_TOKEN = "sessionToken";
+        public static final String PARSE_APP_ID = "4957a682a1b180485bcff93db383848f425880738fb68eed755b18cc8a100bde";
+        public static final String PARSE_REST_API_KEY = "6e57151ad4f0dbc8df1d0864f3710e18e37404cf2c1a02f9fc488a5cab78c721";
+        public static final String HEADER_PARSE_REST_API_KEY = "client_secret";
+        public static final String HEADER_PARSE_APP_ID = "client_id";
+        public static final String CONTENT_TYPE_JSON = "application/json";
+        public static final String USERNAME = "username";
+        public static final String PASSWORD = "password";
+        public static final String SESSION_TOKEN = "sessionToken";
 //
-//        public static final String HEADER_PARSE_GRANT_TYPE = "grant_type";
-//        public static final String GRANT_TYPE = "password";
-//        public static final String HEADER_PARSE_ACCESS_TOKEN = "access_token";
+        public static final String HEADER_PARSE_GRANT_TYPE = "grant_type";
+        public static final String GRANT_TYPE = "password";
+        public static final String HEADER_PARSE_ACCESS_TOKEN = "access_token";
 
 
         /**

@@ -18,6 +18,9 @@ public class ChatMessage implements Serializable {
     String commodity_id = null;
     Date created_at, read_at;
 
+    public ChatMessage() {
+    }
+
     public ChatMessage(String name, String content) {
         this.name = name;
         this.content = content;

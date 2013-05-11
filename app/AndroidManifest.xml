@@ -143,6 +143,9 @@
         <activity
                 android:name=".ui.ActivityChat"
                 />
+        <activity
+                android:name=".ui.ActivityLogin"
+                />
         <!--<service-->
                 <!--android:name=".service.ProblemsService"-->
                 <!--android:process=":message" >-->

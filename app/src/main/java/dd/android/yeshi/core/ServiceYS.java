@@ -127,32 +127,42 @@ public class ServiceYS {
         }
     }
 
-    public static ChatMessage postChatMessage(ChatMessage chatMessage)  throws IOException  {
-        try {
+    public static HttpRequest postChatMessage(ChatMessage chatMessage)  throws IOException  {
+//        try {
             String url;
             HttpRequest request;
             if(chatMessage.commodity_id != null)
             {
-                url = String.format(FORMAT_URL_COMMODITY_CHAT_MESSAGES,chatMessage.commodity_id);
+                url = String.format(FORMAT_URL_COMMODITY_CHAT_MESSAGES,chatMessage.commodity_id) + "&" + HEADER_PARSE_ACCESS_TOKEN + "=" + Settings.getFactory().getAuthToken();
                 request = post(url)
+                        .part(HEADER_PARSE_REST_API_KEY, PARSE_REST_API_KEY)
+                        .part(HEADER_PARSE_APP_ID, PARSE_APP_ID)
+//                        .part("chat_message[name]", java.net.URLEncoder.encode(chatMessage.getName(),   "utf-8"))
+//                        .part("chat_message[content]", java.net.URLEncoder.encode(chatMessage.getContent(),   "utf-8"))
                         .part("chat_message[name]", chatMessage.getName())
                         .part("chat_message[content]", chatMessage.getContent())
                         .part("chat_message[commodity_id]", chatMessage.getCommodity_id())
                 ;
+                ;
             }
             else
             {
-                url = CHAT_MESSAGES;
+                url = CHAT_MESSAGES + "?" + HEADER_PARSE_ACCESS_TOKEN + "=" + Settings.getFactory().getAuthToken();
                 request = post(url)
+                        .part(HEADER_PARSE_REST_API_KEY, PARSE_REST_API_KEY)
+                        .part(HEADER_PARSE_APP_ID, PARSE_APP_ID)
                         .part("chat_message[name]", chatMessage.getName())
-                        .part("chat_message[content]", chatMessage.getContent());
+                        .part("chat_message[content]", chatMessage.getContent())
+                ;
             }
-            String body = request.body();
-            ChatMessage response = JSON.parseObject(body, ChatMessage.class);
-            return response;
-        } catch (HttpRequest.HttpRequestException e) {
-            throw e.getCause();
-        }
+            return request;
+//            String body = request.body();
+//            return body;
+//            ChatMessage response = JSON.parseObject(body, ChatMessage.class);
+//            return response;
+//        } catch (HttpRequest.HttpRequestException e) {
+//            throw e.getCause();
+//        }
     }
 
 //    public static List<Price> getPrices(String uuid) throws IOException {
