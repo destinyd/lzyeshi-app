@@ -1,4 +1,4 @@
-package dd.android.yeshi.core;
+package dd.android.common;
 
 import java.text.FieldPosition;
 import java.text.ParsePosition;

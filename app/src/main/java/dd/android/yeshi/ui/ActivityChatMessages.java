@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import com.actionbarsherlock.view.Window;
 import com.costum.android.widget.LoadMoreListView;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.google.inject.Inject;
 import dd.android.yeshi.R;
-import dd.android.yeshi.core.Commodity;
+import dd.android.yeshi.core.ChatMessage;
 import dd.android.yeshi.core.PictureImageLoader;
 import dd.android.yeshi.core.ServiceYS;
 import roboguice.inject.InjectView;
@@ -19,28 +18,28 @@ import roboguice.util.RoboAsyncTask;
 import java.util.ArrayList;
 import java.util.List;
 
-import static dd.android.yeshi.core.Constants.Extra.COMMODITY;
+import static dd.android.yeshi.core.Constants.Extra.*;
 
 /**
  * Activity to authenticate the ABUser against an API (example API on Parse.com)
  */
-public class ActivityCommodities extends
-        ActivityYS {
+public class ActivityChatMessages extends
+        ActivityUserYS {
 
-    List<Commodity> commodities = new ArrayList<Commodity>();
+    List<ChatMessage> chat_messages = new ArrayList<ChatMessage>();
 
     @InjectView(R.id.lv_list)
     private LoadMoreListView lv_list;
     @Inject
     private PictureImageLoader avatars;
-    AdapterCommodities adapter = null;
+    AdapterChatMessage adapter = null;
     int page = 1,pass_page = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
-        setContentView(R.layout.act_commodities);
+        setContentView(R.layout.act_chat_messages);
 
         lv_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -54,41 +53,48 @@ public class ActivityCommodities extends
                 new LoadMoreListView.OnLoadMoreListener() {
                     @Override
                     public void onLoadMore() {
-                        getNextPage();
+                        get_next_page();
                     }
                 }
         );
-        getCommodities();
+
+        if (!isLogin()) {
+            start_login();
+        }
+//        else{
+//            get_chat_messages();
+//        }
     }
 
-    private void initProblems() {
-        if (commodities == null)
-            commodities = new ArrayList<Commodity>();
+    private void init_chat_messages() {
+        if (chat_messages == null)
+            chat_messages = new ArrayList<ChatMessage>();
     }
 
-    private void getNextPage() {
+    private void get_next_page() {
         page++;
-        getCommodities();
+        get_chat_messages();
     }
 
-    private void getCommodities() {
+    private void get_chat_messages() {
         progressDialogShow(this);
         new RoboAsyncTask<Boolean>(this) {
             public Boolean call() throws Exception {
-                List<Commodity> get_commodities = ServiceYS.getCommodities(page);
-                if (page > 1 && get_commodities != null && get_commodities.size() == 0) {
+                List<ChatMessage> getChatMessages = ServiceYS.getGotChatMessages(page);
+                if (page > 1 && getChatMessages != null && getChatMessages.size() == 0) {
                     page--;
                     lv_list.setOnLoadMoreListener(null);
-                    Toaster.showLong(ActivityCommodities.this, "没有数据了。");
+                    Toaster.showLong(ActivityChatMessages.this, "没有数据了。");
                 } else
-                    addCommodities(get_commodities);
+                    addCommodities(getChatMessages);
                 return true;
             }
 
             @Override
             protected void onException(Exception e) throws RuntimeException {
                 e.printStackTrace();
-                Toaster.showLong(ActivityCommodities.this, "获取商品信息失败");
+                Toaster.showLong(ActivityChatMessages.this, "获取商品信息失败");
+                progressDialogDismiss();
             }
 
             @Override
@@ -105,29 +111,35 @@ public class ActivityCommodities extends
     }
 
 
-    private void addCommodities(List<Commodity> get_commodities) {
-        initProblems();
-        commodities.addAll(get_commodities);
+    private void addCommodities(List<ChatMessage> getChatMessages) {
+        init_chat_messages();
+        chat_messages.addAll(getChatMessages);
     }
 
     public void onListItemClick(LoadMoreListView l, View v, int position, long id) {
-        Commodity commodity = ((Commodity) l.getItemAtPosition(position));
-        startActivity(new Intent(this, ActivityCommodity.class).putExtra(COMMODITY,commodity));
+        ChatMessage chatMessage = ((ChatMessage) l.getItemAtPosition(position));
+        startActivity(new Intent(this, ActivityChatMessage.class).putExtra(CHAT_MESSAGE,chatMessage));
     }
 
     private void commodities_to_list() {
         if(adapter == null)
         {
-            adapter = new AdapterCommodities(
-                    getLayoutInflater(), commodities,
-                    avatars);
+            adapter = new AdapterChatMessage(
+                    getLayoutInflater(), chat_messages);
             lv_list.setAdapter(adapter);
         }
         else
         {
-            adapter.setItems(commodities);
+            adapter.setItems(chat_messages);
             adapter.notifyDataSetChanged();
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        if (isLogin() && (chat_messages == null || chat_messages.size() == 0)) {
+            get_chat_messages();
+        }
+    }
 }

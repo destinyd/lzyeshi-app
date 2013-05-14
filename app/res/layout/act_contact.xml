@@ -62,28 +62,6 @@
                         </RelativeLayout>
                     </LinearLayout>
 
-
-                    <LinearLayout android:orientation="vertical"
-
-                                  android:layout_width="fill_parent"
-                                  android:layout_height="wrap_content"
-                            >
-                        <include layout="@layout/include_patterns_divideline"/>
-                        <RelativeLayout android:padding="12.0dip"
-                                        android:layout_width="fill_parent"
-                                        android:layout_height="wrap_content">
-                            <TextView
-                                    android:id="@+id/profile_phone"
-                                    android:text="电话"
-                                    style="@style/Profile_Item_Top"/>
-                            <TextView android:id="@+id/tv_phone"
-                                      android:text="18777217330"
-                                      style="@style/Profile_Item_Bottom"
-                                      android:layout_below="@+id/profile_phone"
-                                    />
-                        </RelativeLayout>
-                    </LinearLayout>
-
                     <LinearLayout android:orientation="vertical"
                                   android:layout_width="fill_parent"
                                   android:layout_height="wrap_content"
@@ -99,7 +77,7 @@
                                     style="@style/Profile_Item_Top"/>
                             <TextView
                                     android:id="@+id/tv_address"
-                                    android:text="柳州市金鱼巷牛肉粉店旁"
+                                    android:text="柳州市金鱼巷"
                                     style="@style/Profile_Item_Bottom"
                                     android:layout_below="@+id/profile_location"
                                     />
@@ -107,30 +85,30 @@
                     </LinearLayout>
 
 
-                    <LinearLayout android:orientation="vertical"
-                                  android:layout_width="fill_parent"
-                                  android:layout_height="wrap_content"
-                                  android:id="@+id/ll_address"
-                                  android:clickable="true"
-                            >
-                        <include layout="@layout/include_patterns_divideline"/>
-                        <RelativeLayout android:padding="12.0dip"
-                                        android:layout_width="fill_parent"
-                                        android:layout_height="wrap_content">
-                            <TextView
-                                    android:id="@+id/profile_location"
-                                    android:text="当前所在位置"
-                                    style="@style/Profile_Item_Top"/>
-                            <TextView
-                                    android:id="@+id/tv_address"
-                                    android:text="点击查看"
-                                    style="@style/Profile_Item_Bottom"
-                                    android:layout_below="@+id/profile_location"
-                                    android:onClick="handleLocation"
-                                    android:clickable="true"
-                                    />
-                        </RelativeLayout>
-                    </LinearLayout>
+                    <!--<LinearLayout android:orientation="vertical"-->
+                                  <!--android:layout_width="fill_parent"-->
+                                  <!--android:layout_height="wrap_content"-->
+                                  <!--android:id="@+id/ll_address"-->
+                                  <!--android:clickable="true"-->
+                            <!-->-->
+                        <!--<include layout="@layout/include_patterns_divideline"/>-->
+                        <!--<RelativeLayout android:padding="12.0dip"-->
+                                        <!--android:layout_width="fill_parent"-->
+                                        <!--android:layout_height="wrap_content">-->
+                            <!--<TextView-->
+                                    <!--android:id="@+id/profile_location"-->
+                                    <!--android:text="当前所在位置"-->
+                                    <!--style="@style/Profile_Item_Top"/>-->
+                            <!--<TextView-->
+                                    <!--android:id="@+id/tv_address"-->
+                                    <!--android:text="点击查看"-->
+                                    <!--style="@style/Profile_Item_Bottom"-->
+                                    <!--android:layout_below="@+id/profile_location"-->
+                                    <!--android:onClick="handleLocation"-->
+                                    <!--android:clickable="true"-->
+                                    <!--/>-->
+                        <!--</RelativeLayout>-->
+                    <!--</LinearLayout>-->
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

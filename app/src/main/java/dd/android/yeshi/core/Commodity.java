@@ -12,8 +12,8 @@ import java.io.Serializable;
 public class Commodity implements Serializable {
     private static final long serialVersionUID = 2102057155433891457L;
 
-    public String _id,group_id,humanize_price;
-    String name;
+    public String _id, group_id, trader_id, humanize_price;
+    String name,desc;
     int reserve;
     Picture picture;
 
@@ -63,5 +63,21 @@ public class Commodity implements Serializable {
 
     public void setReserve(int reserve) {
         this.reserve = reserve;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getTrader_id() {
+        return trader_id;
+    }
+
+    public void setTrader_id(String trader_id) {
+        this.trader_id = trader_id;
     }
 }

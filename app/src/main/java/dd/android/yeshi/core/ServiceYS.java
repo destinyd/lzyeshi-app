@@ -46,6 +46,28 @@ public class ServiceYS {
 //        return result_problem;
 //    }
 
+    public static Trader getTrader(String id) throws IOException {
+        try {
+            HttpRequest request = get(String.format(FORMAT_URL_TRADER,id) );
+            String body = request.body();
+            Trader response = JSON.parseObject(body, Trader.class);
+            return response;
+        } catch (HttpRequest.HttpRequestException e) {
+            throw e.getCause();
+        }
+    }
+
+    public static Group getGroup(String id) throws IOException {
+        try {
+            HttpRequest request = get(String.format(FORMAT_URL_GROUP,id) );
+            String body = request.body();
+            Group response = JSON.parseObject(body, Group.class);
+            return response;
+        } catch (HttpRequest.HttpRequestException e) {
+            throw e.getCause();
+        }
+    }
+
     public static List<Group> getGroups(int page) throws IOException {
         try {
             HttpRequest request = get(URL_GROUPS + "?page=" + String.valueOf(page));
@@ -91,6 +113,88 @@ public class ServiceYS {
         } catch (HttpRequest.HttpRequestException e) {
             throw e.getCause();
         }
+    }
+
+    public static List<Location> getTraderLocations(String trader_id) throws IOException  {
+        try {
+            String url = String.format(FORMAT_URL_TRADER_LOCATIONS,trader_id);
+            HttpRequest request = get(url);
+            String body = request.body();
+            List<Location> response = JSON.parseArray(body, Location.class);
+            return response;
+        } catch (HttpRequest.HttpRequestException e) {
+            throw e.getCause();
+        }
+    }
+
+    public static List<ChatMessage> getGotChatMessages(int page) throws IOException {
+        try {
+            String url = String.format(FORMAT_URL_GOT_CHAT_MESSAGES,page) + "&" + token();
+            HttpRequest request = get(url)
+                    .header(HEADER_PARSE_REST_API_KEY, PARSE_REST_API_KEY)
+                    .header(HEADER_PARSE_APP_ID, PARSE_APP_ID);
+            String body = request.body();
+            List<ChatMessage> response = JSON.parseArray(body, ChatMessage.class);
+            return response;
+        } catch (HttpRequest.HttpRequestException e) {
+            throw e.getCause();
+        }
+    }
+
+    public static ChatMessage GotChatMessage(String id) throws IOException {
+        try {
+            String url = String.format(FORMAT_URL_GOT_CHAT_MESSAGE,id) + "?" + token();
+            HttpRequest request = get(url)
+                    .header(HEADER_PARSE_REST_API_KEY, PARSE_REST_API_KEY)
+                    .header(HEADER_PARSE_APP_ID, PARSE_APP_ID);
+            String body = request.body();
+            ChatMessage response = JSON.parseObject(body, ChatMessage.class);
+            return response;
+        } catch (HttpRequest.HttpRequestException e) {
+            throw e.getCause();
+        }
+    }
+
+    public static HttpRequest postChatMessage(ChatMessage chatMessage)  throws IOException  {
+//        try {
+            String url;
+            HttpRequest request;
+            if(chatMessage.commodity_id != null)
+            {
+                url = String.format(FORMAT_URL_COMMODITY_CHAT_MESSAGES, chatMessage.commodity_id) + "&" + token();
+                request = post(url)
+                        .part(HEADER_PARSE_REST_API_KEY, PARSE_REST_API_KEY)
+                        .part(HEADER_PARSE_APP_ID, PARSE_APP_ID)
+//                        .part("chat_message[name]", java.net.URLEncoder.encode(chatMessage.getName(),   "utf-8"))
+//                        .part("chat_message[content]", java.net.URLEncoder.encode(chatMessage.getContent(),   "utf-8"))
+                        .part("chat_message[name]", chatMessage.getName())
+                        .part("chat_message[content]", chatMessage.getContent())
+                        .part("chat_message[commodity_id]", chatMessage.getCommodity_id())
+                ;
+                ;
+            }
+            else
+            {
+                url = CHAT_MESSAGES + "?" + HEADER_PARSE_ACCESS_TOKEN + "=" + Settings.getFactory().getAuthToken();
+                request = post(url)
+                        .part(HEADER_PARSE_REST_API_KEY, PARSE_REST_API_KEY)
+                        .part(HEADER_PARSE_APP_ID, PARSE_APP_ID)
+                        .part("chat_message[name]", chatMessage.getName())
+                        .part("chat_message[content]", chatMessage.getContent())
+                ;
+            }
+            return request;
+//            String body = request.body();
+//            return body;
+//            ChatMessage response = JSON.parseObject(body, ChatMessage.class);
+//            return response;
+//        } catch (HttpRequest.HttpRequestException e) {
+//            throw e.getCause();
+//        }
+    }
+
+    private static String token() {
+        return HEADER_PARSE_ACCESS_TOKEN + "=" + Settings.getFactory().getAuthToken();
     }
 
 //    public static List<Price> getPrices(String uuid) throws IOException {

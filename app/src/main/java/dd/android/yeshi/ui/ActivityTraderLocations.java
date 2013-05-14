@@ -1,21 +1,20 @@
 package dd.android.yeshi.ui;
 
 import android.graphics.drawable.Drawable;
-import com.github.kevinsawicki.wishlist.Toaster;
-import dd.android.yeshi.FCApplication;
-import dd.android.yeshi.R;
-import dd.android.yeshi.core.Group;
-import dd.android.yeshi.core.Location;
-import dd.android.yeshi.core.Problem;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 import com.baidu.location.*;
-import com.baidu.mapapi.map.*;
-import com.baidu.mapapi.search.*;
+import com.baidu.mapapi.map.LocationData;
+import com.baidu.mapapi.map.MapController;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MyLocationOverlay;
 import com.baidu.platform.comapi.basestruct.GeoPoint;
-//import com.umeng.analytics.MobclickAgent;
+import com.github.kevinsawicki.wishlist.Toaster;
+import dd.android.yeshi.R;
+import dd.android.yeshi.core.Commodity;
+import dd.android.yeshi.core.Location;
 import dd.android.yeshi.core.ServiceYS;
+import dd.android.yeshi.core.Trader;
 import roboguice.inject.InjectExtra;
 import roboguice.inject.InjectView;
 import roboguice.util.RoboAsyncTask;
@@ -23,15 +22,13 @@ import roboguice.util.RoboAsyncTask;
 import java.util.ArrayList;
 import java.util.List;
 
-import static dd.android.yeshi.core.Constants.Extra.PROBLEM;
+import static dd.android.yeshi.core.Constants.Extra.TRADER;
 
-public class ActivityLocations extends ActivityYS {
+public class ActivityTraderLocations extends ActivityYS {
     @InjectView(R.id.bmapView)
     protected MapView mMapView;
 
     private MapController mMapController = null;
-
-//    public MKMapViewListener mMapListener = null;
 
     // 定位相关
     LocationClient mLocClient;
@@ -40,10 +37,11 @@ public class ActivityLocations extends ActivityYS {
     MyLocationOverlay myLocationOverlay = null;
     LocationData locData = null;
 
-//    MKSearch mSearch = null;
-
     List<Location> locations = new ArrayList<Location>();
-//    private List<OverlayItem> GeoList = new ArrayList<OverlayItem>();
+
+    @InjectExtra(TRADER)
+    protected Trader trader;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,26 +51,11 @@ public class ActivityLocations extends ActivityYS {
         mMapController = mMapView.getController();
 
         mMapView.getController().setZoom(16);
-//        mMapView.getController().enableClick(true);
 
         mMapView.displayZoomControls(true);
-//        mMapListener = new MKMapViewListener() {
-//
-//            @Override
-//            public void onMapMoveFinish() {
-//            }
-//
-//            @Override
-//            public void onClickMapPoi(MapPoi mapPoiInfo) {
-//            }
-//        };
-//        mMapView.regMapViewListener(FCApplication.getInstance().mBMapManager, mMapListener);
-
 
         bindLocClient();
 
-//        set_mylocation(new LocationData());
-//        problem_to_view();
 
         get_locations();
 
@@ -90,7 +73,7 @@ public class ActivityLocations extends ActivityYS {
 
             @Override
             public void onSuccess(Boolean relationship) {
-                mLocClient = new LocationClient(ActivityLocations.this);
+                mLocClient = new LocationClient(ActivityTraderLocations.this);
                 mLocClient.registerLocationListener(myListener);
 
                 LocationClientOption option = new LocationClientOption();
@@ -107,23 +90,6 @@ public class ActivityLocations extends ActivityYS {
 
     }
 
-//    private void problem_to_view() {
-//        GeoPoint ptCenter = new GeoPoint((int)(problem.getLat() * 1E6),(int)(problem.getLng() * 1E6));
-//        mSearch.reverseGeocode(ptCenter);
-////        PoiOverlayFC poiOverlay = new PoiOverlayFC(this, mMapView);
-////        ArrayList<MKPoiInfo> pois = new ArrayList<MKPoiInfo>();
-////        MKPoiInfo mkPoiInfo = new MKPoiInfo();
-////        mkPoiInfo.address = problem.getAddress();
-////        mkPoiInfo.pt = new GeoPoint((int)(problem.getLat() * 1E6),(int)(problem.getLng() * 1E6));
-////        mkPoiInfo.name = problem.getAddress();
-////        pois.add(mkPoiInfo);
-////        poiOverlay.setData(pois);
-////        mMapView.getOverlays().clear();
-////        mMapView.getOverlays().add(poiOverlay);
-//        set_mylocation(locData);
-//        mMapView.refresh();
-////        poiOverlay.animateTo();
-//    }
 
     @Override
     protected void onPause() {
@@ -175,20 +141,13 @@ public class ActivityLocations extends ActivityYS {
         }
 
         public void onReceivePoi(BDLocation poiLocation) {
-            if (poiLocation == null) {
-                return;
-            }
-        }
-    }
-
-    public class NotifyLister extends BDNotifyListener {
-        public void onNotify(BDLocation mlocation, float distance) {
+//            if (poiLocation == null) {
+//                return;
+//            }
         }
     }
 
     protected void set_mylocation(LocationData p_locData){
-//        locData = new LocationData();
-//        if(locData.latitude !=0.0 && locData.longitude !=0.0){
         if(p_locData != null && p_locData.latitude != 0.0 && p_locData.longitude != 0.0 && p_locData.latitude != 4.9E-324 && p_locData.longitude != 4.9E-324){
             if(locData == null){
                 locData = p_locData;
@@ -196,14 +155,12 @@ public class ActivityLocations extends ActivityYS {
                 mMapView.getOverlays().add(myLocationOverlay);
                 myLocationOverlay.enableCompass();
                 mMapView.refresh();
-//                mMapController.animateTo(new GeoPoint((int) (locData.latitude * 1e6), (int) (locData.longitude * 1e6)));//, mHandler.obtainMessage(1));
             }
             else{
                 Log.e("new my location", String.format(" %s, %s", p_locData.latitude, p_locData.longitude));
                 locData = p_locData;
                 myLocationOverlay.setData(locData);
                 mMapView.refresh();
-//                mMapController.animateTo(new GeoPoint((int) (locData.latitude * 1e6), (int) (locData.longitude * 1e6)));//, mHandler.obtainMessage(1));
             }
         }
     }
@@ -212,7 +169,7 @@ public class ActivityLocations extends ActivityYS {
         progressDialogShow();
         new RoboAsyncTask<Boolean>(this) {
             public Boolean call() throws Exception {
-                List<Location> get_locations = ServiceYS.getLocations();
+                List<Location> get_locations = ServiceYS.getTraderLocations(trader.get_id());
                 if(get_locations != null && get_locations.size() > 0){
                     locations.addAll(get_locations);
                 }
@@ -222,8 +179,7 @@ public class ActivityLocations extends ActivityYS {
             @Override
             protected void onException(Exception e) throws RuntimeException {
                 e.printStackTrace();
-                Toaster.showLong(ActivityLocations.this, "获取商家定位失败。");
-//                setProgressBarVisibility(false);
+                Toaster.showLong(ActivityTraderLocations.this, "获取商家定位失败。");
             }
 
             @Override
@@ -234,14 +190,8 @@ public class ActivityLocations extends ActivityYS {
             @Override
             protected void onFinally() throws RuntimeException {
                 progressDialogDismiss();
-//                setProgressBarVisibility(false);
             }
 
-//            @Override
-//            public boolean cancel(boolean mayInterruptIfRunning) {
-//                return super.cancel()
-//                return task.cancel(mayInterruptIfRunning);
-//            }
         }.execute();
     }
 
@@ -254,12 +204,6 @@ public class ActivityLocations extends ActivityYS {
             GeoPoint pt = new GeoPoint((int)(location.getLat() * 1E6),(int)(location.getLng() * 1E6));
             mMapController.animateTo(pt);//, mHandler.obtainMessage(1));
         }
-
-//        for(Location location : locations)
-//        {
-//            GeoPoint pt = new GeoPoint((int)(location.getLat() * 1E6),(int)(location.getLng() * 1E6));
-//            GeoList.add(new OverlayItem(pt, "摊位位置", "商家前5次成功定位地点"));
-//        }
     }
 
 }

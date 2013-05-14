@@ -67,11 +67,20 @@
     <string name="past">维修记录</string>
     <string name="menu">设置</string>
     <string name="label_phone">电话号码</string>
-    <string name="label_name">姓名</string>
+    <string name="label_name">名称</string>
     <string name="label_address">地址</string>
     <string name="label_address_plus">详细地址</string>
     <string name="label_desc">故障描述</string>
     <string name="hint_address_plus">几栋几单元几楼几号房</string>
     <string name="submit">提交</string>
     <string name="wait">敬请期待</string>
+    <string name="label_user_name">用户名(*)</string>
+    <string name="label_content">内容(*)</string>
+    <string name="label_chatable">商品</string>
+
+    <string name="message_auth_failed">请输入正确密码</string>
+    <string name="message_auth_failed_new_account">请输入正确的Email地址和密码</string>
+    <string name="signup_link">新用户? &lt;a href=http://192.168.1.4:3002/users/sign_up>点我注册&lt;/a>.</string>
+    <string name="message_bad_credentials">Email地址或者密码错误</string>
+    <string name="content">内容</string>
 </resources>

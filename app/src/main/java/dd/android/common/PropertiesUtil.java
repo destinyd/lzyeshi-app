@@ -27,20 +27,8 @@ public class PropertiesUtil {
 		return null;
 	}
 
-	/**
-	 * 1、判断SD卡是否存在
-	 */
-	public static boolean hasSdcard() {
-		String status = Environment.getExternalStorageState();
-		if (status.equals(Environment.MEDIA_MOUNTED)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	public static void writeConfiguration(String path,String file_name,Object c) {
-		if (!hasSdcard())
+		if (!SDCard.hasSdcard())
 			return;
         String sd_path = Environment
                 .getExternalStorageDirectory() + path;

@@ -8,7 +8,21 @@ public class Settings {
             ,isLightNotifi = true
             ,isNotDisturb = false;
 
-	protected static Settings _factory = null;
+    public String authToken = null;
+
+    public boolean isLogin(){
+        return authToken != null;
+    }
+
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+    }
+
+    protected static Settings _factory = null;
 
 	public static Settings getFactory() {
 		if (_factory == null)

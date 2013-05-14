@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <gradient
-        android:angle="270"
-        android:endColor="@color/edit_text_background_end"
-        android:startColor="@color/edit_text_background_start" />
+    <item android:drawable="@drawable/edit_text_background_enabled" android:state_enabled="true"/>
+    <item android:drawable="@drawable/edit_text_background_disabled" android:state_enabled="false"/>
 
-    <corners android:radius="3dp" />
+</selector>
 
-</shape>
+<!--<shape xmlns:android="http://schemas.android.com/apk/res/android" >-->
+
+    <!--<gradient-->
+        <!--android:angle="270"-->
+        <!--android:endColor="@color/edit_text_background_end"-->
+        <!--android:startColor="@color/edit_text_background_start" />-->
+
+    <!--<corners android:radius="3dp" />-->
+
+<!--</shape>-->

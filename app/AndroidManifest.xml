@@ -2,8 +2,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="dd.android.yeshi"
-          android:versionCode="103"
-          android:versionName="1.03">
+          android:versionCode="100"
+          android:versionName="1.00">
 
     <uses-sdk
             android:minSdkVersion="8"
@@ -133,6 +133,21 @@
                 />
         <activity
                 android:name=".ui.ActivityContact"
+                />
+        <activity
+                android:name=".ui.ActivityCommodity"
+                />
+        <activity
+                android:name=".ui.ActivityTraderLocations"
+                />
+        <activity
+                android:name=".ui.ActivityChatMessage"
+                />
+        <activity
+                android:name=".ui.ActivityLogin"
+                />
+        <activity
+                android:name=".ui.ActivityChatMessages"
                 />
         <!--<service-->
                 <!--android:name=".service.ProblemsService"-->
