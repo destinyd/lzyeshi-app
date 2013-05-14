@@ -41,6 +41,8 @@ public class ActivityCommodity extends ActivityYS {
     protected TextView tv_location;
     @InjectView(R.id.tv_message)
     protected TextView tv_message;
+    @InjectView(R.id.tv_contacts)
+    protected TextView tv_contacts;
 
 
     @InjectExtra(COMMODITY)
@@ -76,6 +78,8 @@ public class ActivityCommodity extends ActivityYS {
                     startActivity(new Intent(ActivityCommodity.this,ActivityTraderLocations.class).putExtra(TRADER,trader));
                 else if(tv_message.equals(view))
                     startActivity(new Intent(ActivityCommodity.this,ActivityChatMessage.class).putExtra(TRADER,trader).putExtra(COMMODITY, commodity));
+                else if(tv_contacts.equals(view))
+                    startActivity(new Intent(ActivityCommodity.this,ActivityContact.class).putExtra(TRADER,trader));
             }
         };
 

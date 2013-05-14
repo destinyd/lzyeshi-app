@@ -11,12 +11,13 @@
             <LinearLayout android:orientation="vertical" android:layout_width="fill_parent"
                           android:layout_height="fill_parent"
                           style="@style/style_patterns"
-                          android:id="@+id/layout_base"
                     >
-                <LinearLayout android:orientation="vertical" android:layout_width="fill_parent"
+                <LinearLayout android:orientation="vertical"
+                              android:layout_width="fill_parent"
                               android:layout_height="fill_parent"
+                              android:id="@+id/layout_base"
                         >
-                    <TextView android:id="@+id/textview_introduction_title" android:text="基本信息"
+                    <TextView android:id="@+id/textview_introduction_title" android:text="联系方式"
                               style="@style/style_patterns_sectionBar"/>
                     <include layout="@layout/include_patterns_sectionline"/>
 

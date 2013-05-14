@@ -28,4 +28,15 @@
             android:layout_weight="2"
             style="@style/toolbar_item"
             android:id="@+id/tv_location"/>
+    <include layout="@layout/include_toolbar_divideline" />
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:text="联系方式"
+            android:layout_weight="2"
+            style="@style/toolbar_item"
+            android:id="@+id/tv_contacts"/>
 </LinearLayout>
