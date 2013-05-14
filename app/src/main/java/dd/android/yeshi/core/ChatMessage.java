@@ -14,7 +14,7 @@ public class ChatMessage implements Serializable {
     private static final long serialVersionUID = 210205795843891457L;
 
     public String _id;
-    String content, chatable_id, chatable_type, user_id, name;
+    String content, chatable_id, chatable_type, user_id, name, user_name;
     String commodity_id = null;
     Date created_at, read_at;
 
@@ -102,5 +102,13 @@ public class ChatMessage implements Serializable {
 
     public void setCommodity_id(String commodity_id) {
         this.commodity_id = commodity_id;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 }

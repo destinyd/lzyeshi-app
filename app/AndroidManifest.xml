@@ -141,10 +141,13 @@
                 android:name=".ui.ActivityTraderLocations"
                 />
         <activity
-                android:name=".ui.ActivityChat"
+                android:name=".ui.ActivityChatMessage"
                 />
         <activity
                 android:name=".ui.ActivityLogin"
+                />
+        <activity
+                android:name=".ui.ActivityChatMessages"
                 />
         <!--<service-->
                 <!--android:name=".service.ProblemsService"-->

@@ -1,14 +1,11 @@
 package dd.android.yeshi.ui;
 
+import android.content.Intent;
 import dd.android.yeshi.R;
-import dd.android.yeshi.core.*;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.RelativeLayout;
 //import com.umeng.analytics.MobclickAgent;
-import roboguice.inject.InjectView;
-import roboguice.util.RoboAsyncTask;
+
 
 public class ActivitySettings extends ActivityYS {
 
@@ -51,6 +48,14 @@ public class ActivitySettings extends ActivityYS {
 //        setTitle("设置");
 //        PropertiesController.readConfiguration();
 //        settings_to_view();
+    }
+
+    public void handleSendChatMessage(View v){
+        startActivity(new Intent(this, ActivityChatMessage.class));
+    }
+
+    public void handleChatMessages(View v){
+        startActivity(new Intent(this, ActivityChatMessages.class));
     }
 
     public void handleExit(View v){

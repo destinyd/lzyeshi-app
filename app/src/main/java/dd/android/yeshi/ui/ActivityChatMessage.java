@@ -13,24 +13,29 @@ import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.wishlist.Toaster;
 import dd.android.yeshi.R;
 import dd.android.yeshi.core.*;
-import roboguice.inject.InjectExtra;
 import roboguice.inject.InjectView;
 import roboguice.util.RoboAsyncTask;
 
 import java.util.Map;
 
+import static dd.android.yeshi.core.Constants.Extra.CHAT_MESSAGE;
 import static dd.android.yeshi.core.Constants.Extra.COMMODITY;
 import static dd.android.yeshi.core.Constants.Extra.TRADER;
 //import com.umeng.analytics.MobclickAgent;
 
 
-public class ActivityChat extends ActivityYS {
+public class ActivityChatMessage extends ActivityUserYS {
+
+    @InjectView(R.id.label_content)
+    protected TextView label_content;
+    @InjectView(R.id.tv_content)
+    protected TextView tv_content;
 
     @InjectView(R.id.label_chatable)
     protected TextView label_chatable;
 
     @InjectView(R.id.et_chatable)
-    protected TextView tv_chatable;
+    protected TextView et_chatable;
     @InjectView(R.id.et_user_name)
     protected EditText et_user_name;
     @InjectView(R.id.et_content)
@@ -38,11 +43,13 @@ public class ActivityChat extends ActivityYS {
     @InjectView(R.id.btn_submit)
     protected Button btn_submit;
 
-    @InjectExtra(COMMODITY)
-    protected Commodity commodity;
+    //    @InjectExtra(COMMODITY)
+    protected Commodity commodity = null;
 
-    @InjectExtra(TRADER)
-    protected Trader trader;
+    //    @InjectExtra(TRADER)
+    protected Trader trader = null;
+
+    protected ChatMessage chat_message = null;
 
     private RoboAsyncTask<Boolean> postTask;
 
@@ -81,11 +88,13 @@ public class ActivityChat extends ActivityYS {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.act_chat);
+        setContentView(R.layout.act_chat_message);
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        get_extra();
         extra_to_view();
 
         et_user_name.addTextChangedListener(watcher);
@@ -97,6 +106,13 @@ public class ActivityChat extends ActivityYS {
                 handle_post_chat_message(v);
             }
         });
+    }
+
+    private void get_extra() {
+        Intent intent = getIntent();
+        commodity = (Commodity) intent.getSerializableExtra(COMMODITY);
+        trader = (Trader) intent.getSerializableExtra(TRADER);
+        chat_message  = (ChatMessage) intent.getSerializableExtra(CHAT_MESSAGE);
     }
 
     private void handle_post_chat_message(View v) {
@@ -136,20 +152,25 @@ public class ActivityChat extends ActivityYS {
             protected void onException(Exception e) throws RuntimeException {
                 progressDialogDismiss();
                 String str_errors = "";
-                if (result != null) {
-                    for (Map.Entry<String, Object> obj : JSON.parseObject(result).entrySet()) {
-                        str_errors += String.format(format_chat_errors_line, getStringResourceByName(String.format(format_labels, obj.getKey())), obj.getValue());
+                try {
+                    if (result != null) {
+                        for (Map.Entry<String, Object> obj : JSON.parseObject(result).entrySet()) {
+                            str_errors += String.format(format_chat_errors_line, getStringResourceByName(String.format(format_labels, obj.getKey())), obj.getValue());
+                        }
                     }
+                    Toaster.showLong(ActivityChatMessage.this, str_errors);
+                } catch (Exception ex) {
+                    Toaster.showLong(ActivityChatMessage.this, "发生未知错误");
                 }
 //                Throwable cause = e.getCause() != null ? e.getCause() : e;
 
-                Toaster.showLong(ActivityChat.this, str_errors);
+                Toaster.showLong(ActivityChatMessage.this, str_errors);
             }
 
             @Override
             public void onSuccess(Boolean authSuccess) {
                 if (authSuccess) {
-                    Toaster.showLong(ActivityChat.this, "发送成功！");
+                    Toaster.showLong(ActivityChatMessage.this, "发送成功！");
                     finish();
                 } else {
                     start_login();
@@ -167,15 +188,54 @@ public class ActivityChat extends ActivityYS {
 
     private void extra_to_view() {
         if (commodity != null) {
-            tv_chatable.setText(commodity.getName());
+            et_chatable.setText(commodity.getName());
         } else {
             label_chatable.setVisibility(View.GONE);
-            tv_chatable.setVisibility(View.GONE);
+            et_chatable.setVisibility(View.GONE);
         }
         if (trader != null) {
             et_user_name.setText(trader.getUser_name());
             et_user_name.setEnabled(false);
         }
+        if (chat_message != null){
+            tv_content.setText(chat_message.getContent());
+            et_user_name.setText(chat_message.getUser_name());
+            if(chat_message.getRead_at() == null){
+                read(chat_message);
+            }
+        }
+        else{
+            label_content.setVisibility(View.GONE);
+            tv_content.setVisibility(View.GONE);
+        }
+    }
+
+    private void read(ChatMessage chat_message) {
+        new RoboAsyncTask<Boolean>(this) {
+            public Boolean call() throws Exception {
+
+                ChatMessage chat_message = ServiceYS.GotChatMessage(chatMessage.get_id());
+
+                if(chat_message != null)
+                    return true;
+                else
+                    return false;
+            }
+
+            @Override
+            protected void onException(Exception e) throws RuntimeException {
+
+            }
+
+            @Override
+            public void onSuccess(Boolean authSuccess) {
+
+            }
+
+            @Override
+            protected void onFinally() throws RuntimeException {
+            }
+        };
     }
 
     @Override
@@ -185,16 +245,6 @@ public class ActivityChat extends ActivityYS {
         if (!isLogin()) {
             start_login();
         }
-    }
-
-    private void start_login() {
-        Toaster.showLong(this, "请先登录！");
-        startActivity(new Intent(this, ActivityLogin.class));
-    }
-
-    private boolean isLogin() {
-        PropertiesController.readConfiguration();
-        return Settings.getFactory().isLogin();
     }
 
     private String getStringResourceByName(String aString) {

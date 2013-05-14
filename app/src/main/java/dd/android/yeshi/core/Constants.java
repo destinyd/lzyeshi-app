@@ -100,6 +100,10 @@ public class Constants {
 
         public static final String FORMAT_URL_COMMODITY_CHAT_MESSAGES = API_BASE + "/chat_messages.json?commodity_id=%s";
 
+        public static final String FORMAT_URL_GOT_CHAT_MESSAGES = API_BASE + "/got_chat_messages.json?page=%d";
+
+        public static final String FORMAT_URL_GOT_CHAT_MESSAGE = API_BASE + "/got_chat_messages/%s.json";
+
 //        public static final String URL_TEST = API_BASE + "/test";
 //        public static final String URL_REG = API_BASE + "/reg";
 //
@@ -193,6 +197,7 @@ public class Constants {
         public static final String APIKEY = "APIKEY";
         public static final String COMMODITY = "Commodity";
         public static final String TRADER = "Trader";
+        public static final String CHAT_MESSAGE = "ChatMessage";
 
     }
 

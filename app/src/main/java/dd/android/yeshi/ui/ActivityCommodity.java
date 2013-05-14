@@ -75,7 +75,7 @@ public class ActivityCommodity extends ActivityYS {
                 if(tv_location.equals(view))
                     startActivity(new Intent(ActivityCommodity.this,ActivityTraderLocations.class).putExtra(TRADER,trader));
                 else if(tv_message.equals(view))
-                    startActivity(new Intent(ActivityCommodity.this,ActivityChat.class).putExtra(TRADER,trader).putExtra(COMMODITY, commodity));
+                    startActivity(new Intent(ActivityCommodity.this,ActivityChatMessage.class).putExtra(TRADER,trader).putExtra(COMMODITY, commodity));
             }
         };
 
