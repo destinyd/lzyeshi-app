@@ -9,8 +9,12 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import dd.android.yeshi.R;
-import dd.android.yeshi.service.WebSocketService;
+import dd.android.yeshi.core.PropertiesController;
+import dd.android.yeshi.core.Settings;
+import dd.android.yeshi.service.NotificationFayeService;
 import roboguice.activity.RoboTabActivity;
+
+import static dd.android.yeshi.core.Constants.Extra.NAME;
 
 public class ActivityLauncher extends
         RoboTabActivity {
@@ -25,7 +29,8 @@ public class ActivityLauncher extends
 
         tabHost = getTabHost();
         setTabs();
-        Intent intent = new Intent(this, WebSocketService.class);
+        PropertiesController.readConfiguration();
+        Intent intent = new Intent(this, NotificationFayeService.class);
         startService(intent);
     }
     private void setTabs()

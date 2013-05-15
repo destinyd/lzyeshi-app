@@ -1,6 +1,8 @@
 
 package dd.android.yeshi.ui;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static dd.android.yeshi.core.Constants.Extra.*;
+import static dd.android.yeshi.core.Constants.Other.*;
 
 /**
  * Activity to authenticate the ABUser against an API (example API on Parse.com)
@@ -61,9 +64,12 @@ public class ActivityChatMessages extends
         if (!isLogin()) {
             start_login();
         }
-//        else{
-//            get_chat_messages();
-//        }
+        hide_notification();
+    }
+
+    private void hide_notification() {
+        NotificationManager messageNotificatioManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        messageNotificatioManager.cancel(R.string.app_name);
     }
 
     private void init_chat_messages() {
@@ -80,7 +86,7 @@ public class ActivityChatMessages extends
         progressDialogShow(this);
         new RoboAsyncTask<Boolean>(this) {
             public Boolean call() throws Exception {
-                List<ChatMessage> getChatMessages = ServiceYS.getGotChatMessages(page);
+                List<ChatMessage> getChatMessages = ServiceYS.GotChatMessages(page);
                 if (page > 1 && getChatMessages != null && getChatMessages.size() == 0) {
                     page--;
                     lv_list.setOnLoadMoreListener(null);

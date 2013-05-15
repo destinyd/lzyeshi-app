@@ -10,6 +10,8 @@ public class Settings {
 
     public String authToken = null;
 
+    public User user = null;
+
     public boolean isLogin(){
         return authToken != null;
     }
@@ -20,6 +22,20 @@ public class Settings {
 
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
+    }
+
+    public String getName() {
+        if(user != null)
+            return user.getName();
+        return null;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     protected static Settings _factory = null;

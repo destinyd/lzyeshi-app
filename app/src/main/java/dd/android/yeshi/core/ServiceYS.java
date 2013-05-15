@@ -127,7 +127,7 @@ public class ServiceYS {
         }
     }
 
-    public static List<ChatMessage> getGotChatMessages(int page) throws IOException {
+    public static List<ChatMessage> GotChatMessages(int page) throws IOException {
         try {
             String url = String.format(FORMAT_URL_GOT_CHAT_MESSAGES,page) + "&" + token();
             HttpRequest request = get(url)
@@ -149,6 +149,20 @@ public class ServiceYS {
                     .header(HEADER_PARSE_APP_ID, PARSE_APP_ID);
             String body = request.body();
             ChatMessage response = JSON.parseObject(body, ChatMessage.class);
+            return response;
+        } catch (HttpRequest.HttpRequestException e) {
+            throw e.getCause();
+        }
+    }
+
+    public static User getMe() throws IOException {
+        try {
+            String url = URL_ME + "?" + token();
+            HttpRequest request = get(url)
+                    .header(HEADER_PARSE_REST_API_KEY, PARSE_REST_API_KEY)
+                    .header(HEADER_PARSE_APP_ID, PARSE_APP_ID);
+            String body = request.body();
+            User response = JSON.parseObject(body, User.class);
             return response;
         } catch (HttpRequest.HttpRequestException e) {
             throw e.getCause();

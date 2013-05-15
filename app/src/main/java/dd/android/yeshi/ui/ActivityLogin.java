@@ -23,10 +23,8 @@ import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockAccountAuthenticatorActivity;
 import dd.android.yeshi.R;
-import dd.android.yeshi.core.AccessToken;
-import dd.android.yeshi.core.Constants;
-import dd.android.yeshi.core.PropertiesController;
-import dd.android.yeshi.core.Settings;
+import dd.android.yeshi.core.*;
+import dd.android.yeshi.service.NotificationFayeService;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
 import roboguice.util.RoboAsyncTask;
@@ -42,6 +40,7 @@ import static android.view.KeyEvent.KEYCODE_ENTER;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static com.github.kevinsawicki.http.HttpRequest.post;
 import static dd.android.yeshi.core.Constants.Http.*;
+import static dd.android.yeshi.core.Constants.Extra.*;
 
 /**
  * Activity to authenticate the ABUser against an API (example API on Parse.com)
@@ -328,7 +327,38 @@ public class ActivityLogin extends
 //        }
 //        setAccountAuthenticatorResult(intent.getExtras());
 //        setResult(RESULT_OK, intent);
+        get_me();
         finish();
+    }
+
+    private void get_me() {
+        showProgress();
+        new RoboAsyncTask<User>(this) {
+            public User call() throws Exception {
+
+                final String query = String.format("?%s=%s", HEADER_PARSE_GRANT_TYPE, GRANT_TYPE);
+                User user = ServiceYS.getMe();
+
+                return user;
+            }
+
+            @Override
+            protected void onException(Exception e) throws RuntimeException {
+                String message = "获取个人信息失败";
+
+                Toaster.showLong(ActivityLogin.this, message);
+            }
+
+            @Override
+            public void onSuccess(User user) {
+                onGetMeResult(user);
+            }
+
+            @Override
+            protected void onFinally() throws RuntimeException {
+                hideProgress();
+            }
+        }.execute();
     }
 
     /**
@@ -346,6 +376,25 @@ public class ActivityLogin extends
     protected void showProgress() {
         showDialog(0);
     }
+
+    /**
+     * Called when the authentication process completes (see attemptLogin()).
+     *
+     * @param result
+     */
+    public void onGetMeResult(User result) {
+        if (result != null)
+        {
+            Settings.getFactory().setUser(result);
+            PropertiesController.writeConfiguration();
+            startService(new Intent(this, NotificationFayeService.class).putExtra(NAME, result.getName()));
+        }
+        else {
+            Toaster.showLong(ActivityLogin.this,
+                    "获取个人信息失败");
+        }
+    }
+
 
     /**
      * Called when the authentication process completes (see attemptLogin()).

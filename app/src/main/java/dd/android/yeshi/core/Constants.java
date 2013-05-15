@@ -103,6 +103,8 @@ public class Constants {
         public static final String FORMAT_URL_GOT_CHAT_MESSAGES = API_BASE + "/got_chat_messages.json?page=%d";
 
         public static final String FORMAT_URL_GOT_CHAT_MESSAGE = API_BASE + "/got_chat_messages/%s.json";
+        //
+        public static final String URL_ME = API_BASE + "/me.json";
 
 //        public static final String URL_TEST = API_BASE + "/test";
 //        public static final String URL_REG = API_BASE + "/reg";
@@ -129,8 +131,6 @@ public class Constants {
 //        public static final String URL_ACTIVITIES = API_BASE + "/activities.json";
 //
 //        public static final String FORMAT_URL_ACTIVITIES = API_BASE + "/activities.json?page=%d&";
-//
-//        public static final String URL_ME = API_BASE + "/me.json";
 //
 //        public static final String URL_NOTIFICATIONS = API_BASE + "/notifications.json";
 //
@@ -199,6 +199,7 @@ public class Constants {
         public static final String TRADER = "Trader";
         public static final String CHAT_MESSAGE = "ChatMessage";
 
+        public static final String NAME = "Name";
     }
 
     public static class Intent {
@@ -235,7 +236,6 @@ public class Constants {
             public static final int CLOSE = 3;
         }
 
-        public static int NOTIFICATION_ID = 11;
     }
 
     public static class Delay {
@@ -263,6 +263,13 @@ public class Constants {
         }
         public static final String SDCARD_PATH = "/.yeshi";
         public static final String FILE_NAME = "settings.json";
+    }
+
+    public static class Faye {
+        private Faye() {
+        }
+
+        public static final String WS_FAYE = "ws://ysdev.realityandapp.com:9292/faye";
     }
 
 }
