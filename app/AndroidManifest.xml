@@ -2,8 +2,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="dd.android.yeshi"
-          android:versionCode="100"
-          android:versionName="1.00">
+          android:versionCode="101"
+          android:versionName="1.01">
 
     <uses-sdk
             android:minSdkVersion="8"
@@ -43,7 +43,7 @@
     <uses-permission android:name="android.permission.ACCESS_GPS"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <!--<uses-permission android:name="android.permission.CALL_PHONE"/>-->
     <!--<uses-permission android:name="android.permission.READ_SMS"/>-->
     <!--<uses-permission android:name="android.permission.SEND_SMS"/>-->
     <!-- SDK1.5需要android.permission.GET_TASKS权限判断本程序是否为当前运行的应用? -->
