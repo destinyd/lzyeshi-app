@@ -121,9 +121,9 @@ public class ActivityLogin extends
         et_login.addTextChangedListener(watcher);
         passwordText.addTextChangedListener(watcher);
 
-        TextView signupText = (TextView) findViewById(R.id.tv_signup);
-        signupText.setMovementMethod(LinkMovementMethod.getInstance());
-        signupText.setText(Html.fromHtml(getString(R.string.signup_link)));
+//        TextView signupText = (TextView) findViewById(R.id.tv_signup);
+//        signupText.setMovementMethod(LinkMovementMethod.getInstance());
+//        signupText.setText(Html.fromHtml(getString(R.string.signup_link)));
     }
 
     private TextWatcher validationTextWatcher() {
@@ -268,7 +268,6 @@ public class ActivityLogin extends
 //        setAccountAuthenticatorResult(intent.getExtras());
 //        setResult(RESULT_OK, intent);
         get_me();
-        finish();
     }
 
     private void get_me() {
@@ -287,6 +286,7 @@ public class ActivityLogin extends
                 String message = "获取个人信息失败";
 
                 Toaster.showLong(ActivityLogin.this, message);
+                finish();
             }
 
             @Override
@@ -297,6 +297,7 @@ public class ActivityLogin extends
             @Override
             protected void onFinally() throws RuntimeException {
                 hideProgress();
+                finish();
             }
         }.execute();
     }

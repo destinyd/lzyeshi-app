@@ -267,7 +267,6 @@ public class ActivityReg extends
 
         PropertiesController.writeConfiguration();
         get_me();
-        finish();
     }
 
     private void get_me() {
@@ -286,6 +285,7 @@ public class ActivityReg extends
                 String message = "获取个人信息失败";
 
                 Toaster.showLong(ActivityReg.this, message);
+                finish();
             }
 
             @Override
@@ -296,6 +296,7 @@ public class ActivityReg extends
             @Override
             protected void onFinally() throws RuntimeException {
                 hideProgress();
+                finish();
             }
         }.execute();
     }
