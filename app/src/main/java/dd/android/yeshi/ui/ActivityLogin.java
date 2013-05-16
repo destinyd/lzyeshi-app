@@ -1,8 +1,6 @@
 
 package dd.android.yeshi.ui;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -30,11 +28,6 @@ import roboguice.util.Ln;
 import roboguice.util.RoboAsyncTask;
 import roboguice.util.Strings;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.R.layout.simple_dropdown_item_1line;
-import static android.accounts.AccountManager.*;
 import static android.view.KeyEvent.ACTION_DOWN;
 import static android.view.KeyEvent.KEYCODE_ENTER;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
@@ -63,16 +56,9 @@ public class ActivityLogin extends
      */
     public static final String PARAM_USERNAME = "username";
 
-    /**
-     * PARAM_AUTHTOKEN_TYPE
-     */
-    public static final String PARAM_AUTHTOKEN_TYPE = "authtokenType";
 
-
-    private AccountManager accountManager;
-
-    @InjectView(R.id.et_email)
-    private AutoCompleteTextView emailText;
+    @InjectView(R.id.et_login)
+    private AutoCompleteTextView et_login;
 
     @InjectView(R.id.et_password)
     private EditText passwordText;
@@ -90,9 +76,7 @@ public class ActivityLogin extends
      * If set we are just checking that the ABUser knows their credentials; this
      * doesn't cause the ABUser's password to be changed on the device.
      */
-    private Boolean confirmCredentials = false;
-
-    private String email;
+    private String login;
 
     private String password;
 
@@ -104,29 +88,11 @@ public class ActivityLogin extends
      */
     private static String token;
 
-    /**
-     * Was the original caller asking for an entirely new account?
-     */
-    protected boolean requestNewAccount = false;
-
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
-        accountManager = AccountManager.get(this);
-
-        final Intent intent = getIntent();
-        email = intent.getStringExtra(PARAM_USERNAME);
-        authTokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
-        authToken = intent.getStringExtra(KEY_AUTHTOKEN);
-        requestNewAccount = email == null;
-        confirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS,
-                false);
-
         setContentView(R.layout.act_login);
-
-        emailText.setAdapter(new ArrayAdapter<String>(this,
-                simple_dropdown_item_1line, userEmailAccounts()));
 
         passwordText.setOnKeyListener(new OnKeyListener() {
 
@@ -152,20 +118,12 @@ public class ActivityLogin extends
             }
         });
 
-        emailText.addTextChangedListener(watcher);
+        et_login.addTextChangedListener(watcher);
         passwordText.addTextChangedListener(watcher);
 
         TextView signupText = (TextView) findViewById(R.id.tv_signup);
         signupText.setMovementMethod(LinkMovementMethod.getInstance());
         signupText.setText(Html.fromHtml(getString(R.string.signup_link)));
-    }
-
-    private List<String> userEmailAccounts() {
-        Account[] accounts = accountManager.getAccountsByType("com.google");
-        List<String> emailAddresses = new ArrayList<String>(accounts.length);
-        for (Account account : accounts)
-            emailAddresses.add(account.name);
-        return emailAddresses;
     }
 
     private TextWatcher validationTextWatcher() {
@@ -181,10 +139,12 @@ public class ActivityLogin extends
     protected void onResume() {
         super.onResume();
         updateUIWithValidation();
+        if(Settings.getFactory().isLogin())
+            finish();
     }
 
     private void updateUIWithValidation() {
-        boolean populated = populated(emailText) && populated(passwordText);
+        boolean populated = populated(et_login) && populated(passwordText);
         signinButton.setEnabled(populated);
     }
 
@@ -219,20 +179,19 @@ public class ActivityLogin extends
         if (authenticationTask != null)
             return;
 
-        if (requestNewAccount)
-            email = emailText.getText().toString();
+        login = et_login.getText().toString();
         password = passwordText.getText().toString();
         showProgress();
 
         authenticationTask = new RoboAsyncTask<Boolean>(this) {
             public Boolean call() throws Exception {
 
-//                final String query = String.format("%s=%s&%s=%s", PARAM_USERNAME, email, PARAM_PASSWORD, password);
+//                final String query = String.format("%s=%s&%s=%s", PARAM_USERNAME, login, PARAM_PASSWORD, password);
                 final String query = String.format("?%s=%s", HEADER_PARSE_GRANT_TYPE, GRANT_TYPE);
                 HttpRequest request = post(URL_AUTH + query)
                         .part(HEADER_PARSE_APP_ID, PARSE_APP_ID)
                         .part(HEADER_PARSE_REST_API_KEY, PARSE_REST_API_KEY)
-                        .part(PARAM_USERNAME, email)
+                        .part(PARAM_USERNAME, login)
                         .part(PARAM_PASSWORD, password)
                         ;
 
@@ -280,24 +239,6 @@ public class ActivityLogin extends
     }
 
     /**
-     * Called when response is received from the server for confirm credentials
-     * request. See onAuthenticationResult(). Sets the
-     * AccountAuthenticatorResult which is sent back to the caller.
-     *
-     * @param result
-     */
-    protected void finishConfirmCredentials(boolean result) {
-        final Account account = new Account(email, Constants.Auth.YESHI_ACCOUNT_TYPE);
-        accountManager.setPassword(account, password);
-
-        final Intent intent = new Intent();
-        intent.putExtra(KEY_BOOLEAN_RESULT, result);
-        setAccountAuthenticatorResult(intent.getExtras());
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    /**
      * Called when response is received from the server for authentication
      * request. See onAuthenticationResult(). Sets the
      * AccountAuthenticatorResult which is sent back to the caller. Also sets
@@ -306,18 +247,17 @@ public class ActivityLogin extends
 
     protected void finishLogin() {
         PropertiesController.readConfiguration();
-//        final Account account = new Account(email, Constants.Auth.YESHI_ACCOUNT_TYPE);
+//        final Account account = new Account(login, Constants.Auth.YESHI_ACCOUNT_TYPE);
 
 //        if (requestNewAccount)
 //            accountManager.addAccountExplicitly(account, password, null);
 //        else
 //            accountManager.setPassword(account, password);
 //        final Intent intent = new Intent();
-        authToken = token;
         Settings.getFactory().setAuthToken(token);
 
         PropertiesController.writeConfiguration();
-//        intent.putExtra(KEY_ACCOUNT_NAME, email);
+//        intent.putExtra(KEY_ACCOUNT_NAME, login);
 //        intent.putExtra(KEY_ACCOUNT_TYPE, Constants.Auth.YESHI_ACCOUNT_TYPE);
 //        if (authTokenType != null
 //                && authTokenType.equals(Constants.Auth.AUTHTOKEN_TYPE))
@@ -403,33 +343,13 @@ public class ActivityLogin extends
      */
     public void onAuthenticationResult(boolean result) {
         if (result)
-            if (!confirmCredentials)
-                finishLogin();
-            else
-                finishConfirmCredentials(true);
+            finishLogin();
         else {
             Ln.d("onAuthenticationResult: failed to authenticate");
-            if (requestNewAccount)
-                Toaster.showLong(ActivityLogin.this,
-                        R.string.message_auth_failed_new_account);
-            else
-                Toaster.showLong(ActivityLogin.this,
-                        R.string.message_auth_failed);
+            Toaster.showLong(ActivityLogin.this,
+                    R.string.message_auth_failed_new_account);
         }
     }
-
-    static public String getToken(){
-        return token;
-    }
-
-    static public String getAuthToken(){
-        return authToken;
-    }
-
-    public static void setAuthToken(String authToken) {
-        authToken = authToken;
-    }
-
 
 //    /**
 //     * Handles onClick event on the Submit button. Sends username/password to
@@ -462,7 +382,7 @@ public class ActivityLogin extends
 //                    final AccessToken model = JSON.parseObject(tmp, AccessToken.class);
 //                    token = model.getAccess_token();
 //                    JSONObject j = JSON.parseObject(tmp);
-//                    email = j.getString("email");
+//                    login = j.getString("login");
 //                    return true;
 //                }
 //
@@ -499,9 +419,9 @@ public class ActivityLogin extends
 //        authenticationTask.execute();
 //    }
 
-//    public void handleReg(View view) {
-//        if (authenticationTask != null)
-//            return;
-//        startActivity(new Intent(ZhaohaiAuthenticatorActivity.this,ActReg.class));
-//    }
+    public void handleReg(View view) {
+        if (authenticationTask != null)
+            return;
+        startActivity(new Intent(this,ActivityReg.class));
+    }
 }

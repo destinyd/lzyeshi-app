@@ -107,7 +107,7 @@ public class Constants {
         public static final String URL_ME = API_BASE + "/me.json";
 
 //        public static final String URL_TEST = API_BASE + "/test";
-//        public static final String URL_REG = API_BASE + "/reg";
+        public static final String URL_REG = API_BASE + "/reg";
 //
 //        /**
 //         * List Users URL

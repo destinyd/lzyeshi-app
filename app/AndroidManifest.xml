@@ -149,6 +149,9 @@
         <activity
                 android:name=".ui.ActivityChatMessages"
                 />
+        <activity
+                android:name=".ui.ActivityReg"
+                />
         <!--<service-->
                 <!--android:name=".service.ProblemsService"-->
                 <!--android:process=":message" >-->
