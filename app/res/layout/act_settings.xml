@@ -30,24 +30,25 @@
                             <RelativeLayout android:padding="12.0dip"
                                             android:layout_width="fill_parent"
                                             android:layout_height="wrap_content"
+                                            android:clickable="true"
+                                            android:onClick="handleLogin"
                                     >
                                 <TextView
                                         android:id="@+id/profile_login"
                                         android:text="登录"
-                                        android:clickable="true"
-                                        android:onClick="handleLogin"
                                         style="@style/Profile_Item_Top"/>
                             </RelativeLayout>
                             <include layout="@layout/include_patterns_divideline"/>
 
                             <RelativeLayout android:padding="12.0dip"
                                             android:layout_width="fill_parent"
-                                            android:layout_height="wrap_content">
+                                            android:layout_height="wrap_content"
+                                            android:clickable="true"
+                                            android:onClick="handleReg"
+                                    >
                                 <TextView
                                         android:id="@+id/profile_reg"
                                         android:text="注册"
-                                        android:clickable="true"
-                                        android:onClick="handleReg"
                                         style="@style/Profile_Item_Top"/>
                                 />
                             </RelativeLayout>
@@ -87,12 +88,13 @@
 
                             <RelativeLayout android:padding="12.0dip"
                                             android:layout_width="fill_parent"
-                                            android:layout_height="wrap_content">
+                                            android:layout_height="wrap_content"
+                                            android:clickable="true"
+                                            android:onClick="handleLogout"
+                                    >
                                 <TextView
                                         android:id="@+id/profile_logout"
                                         android:text="登出"
-                                        android:clickable="true"
-                                        android:onClick="handleLogout"
                                         style="@style/Profile_Item_Top"/>
                             </RelativeLayout>
                         </LinearLayout>
@@ -113,12 +115,12 @@
                             >
                         <RelativeLayout android:padding="12.0dip"
                                         android:layout_width="fill_parent"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:clickable="true"
+                                        android:onClick="handleChatMessages">
                             <TextView
                                     android:id="@+id/profile_messages"
                                     android:text="短信箱"
-                                    android:clickable="true"
-                                    android:onClick="handleChatMessages"
                                     style="@style/Profile_Item_Top"/>
                             <!--<TextView-->
                             <!--android:id="@+id/tv_address"-->
@@ -132,12 +134,12 @@
 
                         <RelativeLayout android:padding="12.0dip"
                                         android:layout_width="fill_parent"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:clickable="true"
+                                        android:onClick="handleSendChatMessage">
                             <TextView
                                     android:id="@+id/profile_messages"
                                     android:text="发短信息"
-                                    android:clickable="true"
-                                    android:onClick="handleSendChatMessage"
                                     style="@style/Profile_Item_Top"/>
                             <!--<TextView-->
                                     <!--android:id="@+id/tv_address"-->
@@ -151,12 +153,12 @@
                         
                         <RelativeLayout android:padding="12.0dip"
                                         android:layout_width="fill_parent"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:clickable="true"
+                                        android:onClick="handleExit">
                             <TextView
                                     android:id="@+id/profile_exit"
                                     android:text="退出"
-                                    android:clickable="true"
-                                    android:onClick="handleExit"
                                     style="@style/Profile_Item_Top"/>
                             <!--<TextView-->
                                     <!--android:id="@+id/tv_address"-->
