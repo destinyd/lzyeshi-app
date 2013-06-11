@@ -61,7 +61,7 @@ public class Constants {
         }
 
 
-        public static final String URL_BASE = "http://ysdev.realityandapp.com";
+        public static final String URL_BASE = "http://dev.liuzhouyeshi.com";
 
 //        public static final String URL_ADMIN_BASE = URL_BASE + "/xiaofengxiaomi";
 
@@ -94,7 +94,7 @@ public class Constants {
          */
         public static final String URL_AUTH = URL_BASE + "/oauth/token";
 
-        public static final String API_BASE = "http://api.ysdev.realityandapp.com/v1";
+        public static final String API_BASE = "http://api.dev.liuzhouyeshi.com/v1";
 
         public static final String CHAT_MESSAGES = API_BASE + "/chat_messages.json";
 
