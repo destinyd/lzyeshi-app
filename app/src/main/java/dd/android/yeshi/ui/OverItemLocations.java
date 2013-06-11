@@ -3,6 +3,7 @@ package dd.android.yeshi.ui;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import com.baidu.mapapi.map.ItemizedOverlay;
+import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.OverlayItem;
 import com.baidu.platform.comapi.basestruct.GeoPoint;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -26,8 +27,8 @@ public class OverItemLocations extends ItemizedOverlay<OverlayItem> {
 //    private double mLat3 = 39.917723;
 //    private double mLon3 = 116.3722;
 
-    public OverItemLocations(Drawable marker,List<Location> locations){//}, Context context) {
-        super(marker);
+    public OverItemLocations(MapView mapView,Drawable marker,List<Location> locations){//}, Context context) {
+        super(marker, mapView);
 
 //        this.mContext = context;
 
@@ -44,7 +45,7 @@ public class OverItemLocations extends ItemizedOverlay<OverlayItem> {
             GeoPoint pt = new GeoPoint((int)(location.getLat() * 1E6),(int)(location.getLng() * 1E6));
             GeoList.add(new OverlayItem(pt, "摊位位置", "商家前5次成功定位地点"));
         }
-        populate(); //createItem(int)方法构造item。一旦有了数据，在调用其它方法前，首先调用这个方法
+//        populate(); //createItem(int)方法构造item。一旦有了数据，在调用其它方法前，首先调用这个方法
     }
 
     @Override

@@ -247,7 +247,7 @@ public class ActivityLocations extends ActivityYS {
 
     private void locations_to_view() {
         Drawable marker = getResources().getDrawable(R.drawable.icon_marka);
-        mMapView.getOverlays().add(new OverItemLocations(marker, locations)); //添加ItemizedOverlay实例到mMapView
+        mMapView.getOverlays().add(new OverItemLocations(mMapView,marker, locations)); //添加ItemizedOverlay实例到mMapView
         mMapView.refresh();//刷新地图
         if(locations != null && locations.size() > 0){
             Location location = locations.get(0);

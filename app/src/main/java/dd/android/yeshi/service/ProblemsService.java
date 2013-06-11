@@ -16,7 +16,6 @@ import roboguice.service.RoboService;
 import java.util.Calendar;
 
 import static dd.android.yeshi.core.Constants.Extra.PROBLEM;
-import static dd.android.yeshi.core.Constants.Other.NOTIFICATION_ID;
 
 public class ProblemsService extends RoboService {
 
