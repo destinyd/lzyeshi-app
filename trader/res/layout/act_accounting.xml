@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="5dp" >
+
+            <TextView
+                style="@style/ShadowText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="单价(*)"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/text"
+                    />
+
+            <EditText
+                android:id="@+id/et_price"
+                style="@style/SignInEditText"
+                android:imeOptions="actionNext"
+                android:inputType="numberDecimal"
+                android:nextFocusDown="@+id/et_quantity"
+                    />
+
+            <TextView
+                style="@style/ShadowText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="10dp"
+                android:text="数量(*)"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/text"
+                android:id="@+id/tv_quantity"
+                    />
+
+            <EditText
+                android:id="@+id/et_quantity"
+                style="@style/SignInEditText"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:nextFocusDown="@+id/et_total"
+                    />
+
+
+            <TextView
+                    style="@style/ShadowText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="10dp"
+                    android:text="总价(*)"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/text" />
+
+            <EditText
+                    android:id="@+id/et_total"
+                    style="@style/SignInEditText"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal"
+                    />
+
+            <Button
+                android:id="@+id/btn_submit"
+                style="@style/ShadowText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/button_background_states"
+                android:gravity="center"
+                android:onClick="handleSubmit"
+                android:padding="10dp"
+                android:text="@string/submit"
+                android:textColor="@color/text"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

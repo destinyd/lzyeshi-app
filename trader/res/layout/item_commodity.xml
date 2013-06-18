@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:paddingBottom="5dp"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+              android:paddingTop="20dp"
+        >
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iv_image"
+            android:layout_gravity="center_horizontal"
+            />
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="5dp"
+            android:gravity="left"
+            >
+        <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/abs__primary_text_holo_light"
+                />
+    </LinearLayout>
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="5dp"
+            android:gravity="left"
+            >
+        <TextView
+                android:id="@+id/label_reserve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/abs__primary_text_holo_light"
+                android:text="库存:"
+                android:layout_alignParentLeft="true"/>
+        <TextView
+                android:id="@+id/tv_reserve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/abs__primary_text_holo_light"
+                android:layout_toRightOf="@+id/label_reserve"/>
+        <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/abs__primary_text_holo_light"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/tv_reserve" android:gravity="right"/>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/menu_refresh"
+          android:showAsAction="ifRoom"
+          android:title="刷新"
+          android:icon="@drawable/ic_action_refresh"
+            />
+    <item android:showAsAction="always"
+          android:title="操作"
+          android:icon="@drawable/ic_menu_preferences">
+        <menu>
+            <item android:id="@+id/menu_accounting"
+                  android:showAsAction="always"
+                  android:title="记账"
+                  android:icon="@drawable/ic_menu_accounting"   
+                    />
+            <item android:id="@+id/menu_edit_commodity"
+                  android:showAsAction="always"
+                  android:title="修改"
+                  android:icon="@drawable/ic_menu_edit"
+                    />
+            <item android:id="@+id/menu_delete_commodity"
+                  android:showAsAction="always"
+                  android:title="删除"
+                  android:icon="@drawable/ic_menu_del"
+                    />
+        </menu>
+    </item>
+</menu>
